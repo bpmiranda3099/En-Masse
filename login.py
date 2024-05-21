@@ -26,19 +26,19 @@ def login():
         cursor = db.cursor(dictionary=True)
 
         # Execute user_data.sql if necessary (this could be optimized based on your needs)
-        execute_sql_file('user_data.sql', cursor)
-        
+        # execute_sql_file('user_data.sql', cursor)  # Uncomment if needed for testing
+
         # Query database for user
         query = "SELECT * FROM login WHERE username = %s OR email = %s"
         cursor.execute(query, (login_id, login_id))
         user = cursor.fetchone()
 
         # Check if user exists and password is correct
-        if user and 'password' in user and user['password'] == password:
-            response = {"message": "Login successful", "user": user}
+        if user and user.get('password') == password:
+            response = {"message": "Login successful", "user": {"username": user['username'], "email": user['email']}}
         else:
             response = {"message": "Invalid username/email or password"}
-        
+
         cursor.close()
         db.close()
     except mysql.connector.Error as err:

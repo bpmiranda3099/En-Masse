@@ -28,7 +28,7 @@ if ($response === false) {
     $result = json_decode($response, true);
     if (isset($result['message']) && $result['message'] === "Login successful") {
         // Set session variables
-        $_SESSION['user'] = $result['user'];
+        $_SESSION['username'] = $result['user']['username']; // Assuming `username` is the key
         // Redirect the user to landing_page.php upon successful login
         header("Location: landing_page.php");
         exit();
