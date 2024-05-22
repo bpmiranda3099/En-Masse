@@ -1,0 +1,20 @@
+{
+    "name": "miranda/en-masse",
+    "description": "A mass emailing system.",
+    "type": "project",
+    "license": "Apache",
+    "autoload": {
+        "psr-4": {
+            "Miranda\\EnMasse\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "bpmiranda3099",
+            "email": "brandon.miranda@lpunetwork.edu.ph"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^2.1"
+    }
+}
