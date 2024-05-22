@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Database connection is already established by execute_sql.php
     $user_username = $_POST['username'];
     $user_email = $_POST['email'];
-    $user_password = $_POST['password']; // No need for hashing here
+    $user_password = $_POST['password']; // No need for hashing here, but it is recommended
     $user_first_name = $_POST['first_name'];
     $user_last_name = $_POST['last_name'];
     $user_dob = $_POST['date_of_birth'];
@@ -28,7 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Insert into user_details table
             $details_query = "INSERT INTO user_details (user_id, first_name, last_name, date_of_birth, address, phone_number) VALUES ('$user_id', '$user_first_name', '$user_last_name', '$user_dob', '$user_address', '$user_phone')";
             if ($conn->query($details_query) === TRUE) {
-                echo "Registration successful!";
+                // Redirect to login.php with success parameter
+                header("Location: login.php?registration=success");
+                exit();
             } else {
                 echo "Error: " . $details_query . "<br>" . $conn->error;
             }

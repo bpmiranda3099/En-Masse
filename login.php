@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (isset($_GET['registration']) && $_GET['registration'] == 'success') {
+    echo "<script>alert('Registration successful!');</script>";
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,7 +62,7 @@
     <div class="menu">
         <ul>
             <li class="logo"><a href="landing_page.php">Logo</a></li>
-			<li class="right-links"><a href="register.php">Signup</a></li>
+            <li class="right-links"><a href="register.php">Signup</a></li>
             <li class="right-links"><a href="login.php">Login</a></li>
             <li class="right-links"><a href="about.php">About Us</a></li>
             <li class="right-links"><a href="contact_us.php">Contact Us</a></li>
