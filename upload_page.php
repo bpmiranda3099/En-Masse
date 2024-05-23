@@ -1,18 +1,25 @@
 <?php
 session_start();
 
-if (isset($_GET['registration']) && $_GET['registration'] == 'success') {
-    echo "<script>alert('Registration successful!');</script>";
+// Check if the user is logged in
+if (!isset($_SESSION['username'])) {
+    // If not logged in, redirect to login page
+    header("Location: login.php");
+    exit();
 }
+
+// Adjusted file name
+$upload_page = "http://127.0.0.1:5000/upload"; // Change to the appropriate endpoint in Flask app
+
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
-    <style>
+    <title>Welcome and Upload Excel File</title>
+	    <style>
         /* CSS for menu bar */
-        .menu {
+		.menu {
 			overflow: hidden;
 			position: relative;
 		}
@@ -51,34 +58,37 @@ if (isset($_GET['registration']) && $_GET['registration'] == 'success') {
 
 
         /* CSS for centering login form */
-        .login-container {
+        .upload-container {
             text-align: center;
             margin-top: 100px;
         }
     </style>
 </head>
 <body>
-    <!-- Menu Bar -->
+	<!-- Menu Bar -->
     <div class="menu">
         <ul>
             <li class="logo"><a href="landing_page.php">Logo</a></li>
-            <li class="right-links"><a href="register.php">Signup</a></li>
-            <li class="right-links"><a href="login.php">Login</a></li>
+            <li class="right-links"><a href="logout.php">Logout</a></p>
+			<li class="right-links"><a href="user_profile.php">Profile</a></li>
             <li class="right-links"><a href="about.php">About Us</a></li>
             <li class="right-links"><a href="contact_us.php">Contact Us</a></li>
         </ul>
     </div>
-    
-    <div class="login-container">
-        <h2>Login</h2>
-        <form action="login_process.php" method="post">
-            <label for="login">Username or Email:</label>
-            <input type="text" id="login" name="login" required><br><br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br><br>
-            <input type="submit" value="Login">
-        </form>
-        <p>Don't have an account? <a href="register.php">Register here</a></p>
-    </div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class=upload-container>
+		<h2>Upload Excel File</h2>
+		<!-- Adjusted form action -->
+		<form action="<?php echo $upload_page; ?>" method="post" enctype="multipart/form-data">
+			<label for="file">Upload Excel File:</label>
+			<input type="file" name="file" id="file" accept=".xlsx">
+			<!-- Hidden input field to include the username from the session -->
+			<input type="hidden" name="username" value="<?php echo $_SESSION['username']; ?>">
+			<input type="submit" value="Upload">
+		</form>
+	</div>
 </body>
 </html>

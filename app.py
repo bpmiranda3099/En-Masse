@@ -66,8 +66,8 @@ def login():
 
     return jsonify(response)
 
-@app.route('/landing_page', methods=['GET', 'POST'])
-def landing_page():
+@app.route('/upload_page', methods=['GET', 'POST'])
+def upload_page():
     if 'username' not in session:
         return redirect("/login")
 
@@ -86,7 +86,7 @@ def landing_page():
             <hr>
 
             <h2>Upload Excel File</h2>
-            <form action="/landing_page" method="post" enctype="multipart/form-data">
+            <form action="/upload_page" method="post" enctype="multipart/form-data">
                 <label for="file">Upload Excel File:</label>
                 <input type="file" name="file" id="file" accept=".xlsx">
                 <input type="submit" value="Upload">

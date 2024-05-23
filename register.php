@@ -5,42 +5,42 @@
     <style>
         /* CSS for menu bar */
         .menu {
-            background-color: #f2f2f2;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .menu ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .menu li {
-            float: left;
-        }
+			overflow: hidden;
+			position: relative;
+		}
 
-        .menu li.logo {
-            float: left; /* Keep the logo to the left */
-        }
-        
-        .menu li a {
-            display: block;
-            color: #333;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-        
-        .menu li a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-        
-        .menu .right-links {
-            float: right; /* Align right */
-            margin-left: 10px; /* Add a small margin between links */
-        }
+		.menu ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		.menu li {
+			float: left;
+		}
+
+		.menu li.logo {
+			float: left; /* Keep the logo to the left */
+		}
+
+		.menu li a {
+			display: block;
+			color: #333;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+
+		.menu li a:hover {
+			background-color: #ddd;
+			color: black;
+		}
+
+		.menu .right-links {
+			float: right; /* Align right */
+			margin-left: 10px; /* Add a small margin between links */
+		}
+
         .register-container {
             text-align: center;
             margin-top: 100px;
