@@ -17,3 +17,12 @@ CREATE TABLE IF NOT EXISTS user_details (
     phone_number VARCHAR(20),
     FOREIGN KEY (user_id) REFERENCES login(user_id)
 );
+
+-- Create the user_uploaded_tables 
+CREATE TABLE IF NOT EXISTS user_uploaded_tables (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    table_name VARCHAR(255) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES login(user_id)
+);
+

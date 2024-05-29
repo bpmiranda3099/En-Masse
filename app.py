@@ -138,6 +138,13 @@ def upload_file():
             db = mysql.connector.connect(**db_config)
             cursor = db.cursor()
 
+            # Get user ID from the login table
+            cursor.execute("SELECT user_id FROM login WHERE username = %s", (username,))
+            user = cursor.fetchone()
+            if not user:
+                return jsonify({"message": "User not found"}), 400
+            user_id = user[0]
+
             workbook = openpyxl.load_workbook(file)
             sheet = workbook.active
 
@@ -151,7 +158,9 @@ def upload_file():
             CREATE TABLE {table_name} (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
-                email VARCHAR(255) NOT NULL
+                email VARCHAR(255) NOT NULL,
+                INDEX(name),
+                INDEX(email)
             )
             """)
 
@@ -159,6 +168,9 @@ def upload_file():
                 if len(row) >= 2:
                     name, email = row[0], row[1]
                     cursor.execute(f"INSERT INTO {table_name} (name, email) VALUES (%s, %s)", (name, email))
+
+            # Insert information into user_uploaded_tables
+            cursor.execute("INSERT INTO user_uploaded_tables (user_id, table_name) VALUES (%s, %s)", (user_id, table_name))
 
             db.commit()
             cursor.close()
