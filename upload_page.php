@@ -18,73 +18,132 @@ $upload_page = "http://127.0.0.1:5000/upload"; // Change to the appropriate endp
 <head>
     <title>Welcome and Upload Excel File</title>
     <style>
-        /* CSS for menu bar */
-        .menu {
-            overflow: hidden;
-            position: relative;
-        }
-
-        .menu ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .menu li {
-            float: left;
-        }
-
-        .menu li.logo {
-            float: left; /* Keep the logo to the left */
-        }
-
-        .menu li a {
-            display: block;
-            color: #333;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-        .menu li a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-
-        .menu .right-links {
-            float: right; /* Align right */
-            margin-left: 10px; /* Add a small margin between links */
-        }
 
         /* CSS for centering upload form */
         .upload-container {
             text-align: center;
             margin-top: 100px;
         }
+
+        /* CSS for drag and drop */
+		.drag-drop {
+			border: 2px dashed #ccc;
+			padding: 20px;
+			text-align: center;
+			cursor: pointer;
+			display: block; /* Ensure block-level display */
+			width: 400px; /* Adjust width as needed */
+			margin: auto; /* Center horizontally */
+		}
+
+		.drag-drop:hover {
+			background-color: #f0f0f0;
+		}
+
+		/* CSS for cancel button */
+		#cancelButton {
+			margin-top: 10px;
+			display: none; /* Initially hide cancel button */
+			margin-left: auto; /* Center horizontally */
+			margin-right: auto; /* Center horizontally */
+		}
     </style>
 </head>
 <body>
-    <!-- Menu Bar -->
-    <div class="menu">
-        <ul>
-            <li class="logo"><a href="landing_page.php">Logo</a></li>
-            <li class="right-links"><a href="logout.php">Logout</a></li>
-            <li class="right-links"><a href="user_profile.php">Profile</a></li>
-            <li class="right-links"><a href="about.php">About Us</a></li>
-            <li class="right-links"><a href="contact_us.php">Contact Us</a></li>
-        </ul>
-    </div>
+    <?php include 'menu.html'; ?>
     <br><br><br><br>
     <div class="upload-container">
         <h2>Upload Excel File</h2>
         <!-- Adjusted form action -->
-        <form action="<?php echo $upload_page; ?>" method="post" enctype="multipart/form-data">
-            <label for="file">Upload Excel File:</label>
-            <input type="file" name="file" id="file" accept=".xlsx">
+        <form id="uploadForm" action="<?php echo $upload_page; ?>" method="post" enctype="multipart/form-data">
             <!-- Hidden input field to include the username from the session -->
             <input type="hidden" name="username" value="<?php echo $_SESSION['username']; ?>">
-            <input type="submit" value="Upload">
+            <label for="file" class="drag-drop" id="dropArea">Drag and drop your file here or click to select<input type="file" name="file" id="file" accept=".xlsx" style="display: none;"></label>
+            <br>
+			<input type="submit" value="Upload" id="uploadButton">
+            <button type="button" id="cancelButton">Cancel</button>
         </form>
+        <p id="fileName"></p>
     </div>
+
+    <script>
+        // JavaScript for drag and drop functionality
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('file');
+        const fileNameDisplay = document.getElementById('fileName');
+        const cancelButton = document.getElementById('cancelButton');
+
+        dropArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            dropArea.classList.add('highlight');
+        });
+
+        dropArea.addEventListener('dragleave', function() {
+            dropArea.classList.remove('highlight');
+        });
+
+        dropArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            const files = e.dataTransfer.files;
+            fileInput.files = files;
+            dropArea.classList.remove('highlight');
+            updateFileName(files[0].name);
+            hideDropArea();
+        });
+
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length > 0) {
+                updateFileName(fileInput.files[0].name);
+                hideDropArea();
+            }
+        });
+
+        cancelButton.addEventListener('click', function() {
+            clearFileInput();
+            showDropArea();
+            fileNameDisplay.textContent = ''; // Clear file name display
+        });
+
+        function updateFileName(name) {
+            fileNameDisplay.textContent = 'Selected file: ' + name;
+        }
+
+        function hideDropArea() {
+            dropArea.style.display = 'none';
+            cancelButton.style.display = 'inline-block'; // Show cancel button
+        }
+
+        function showDropArea() {
+            dropArea.style.display = 'block';
+            cancelButton.style.display = 'none'; // Hide cancel button
+        }
+
+        function clearFileInput() {
+            fileInput.value = ''; // Clear file input
+        }
+		
+		// Handle form submission with AJAX
+        uploadForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(uploadForm);
+            fetch('<?php echo $upload_page; ?>', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "File uploaded and processed successfully") {
+                    window.location.href = 'compose_email.php';
+                } else {
+                    alert('Failed to upload file: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error uploading file:', error);
+                alert('An error occurred while uploading the file.');
+            });
+        });
+    </script>
 </body>
 </html>

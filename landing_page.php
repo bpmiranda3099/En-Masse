@@ -35,50 +35,16 @@ if ($tables_result->num_rows > 0) {
 }
 
 $conn->close();
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Welcome and Upload Excel File</title>
     <style>
-		/* CSS for menu bar */
-		.menu {
-			overflow: hidden;
-			position: relative;
-		}
-
-		.menu ul {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-		}
-
-		.menu li {
-			float: left;
-		}
-
-		.menu li.logo {
-			float: left; /* Keep the logo to the left */
-		}
-
-		.menu li a {
-			display: block;
-			color: #333;
-			text-align: center;
-			padding: 14px 16px;
-			text-decoration: none;
-		}
-
-		.menu li a:hover {
-			background-color: #ddd;
-			color: black;
-		}
-
-		.menu .right-links {
-			float: right; /* Align right */
-			margin-left: 10px; /* Add a small margin between links */
-		}
 
 		/* CSS for dropdown menu */
 		.dropdown {
@@ -146,6 +112,10 @@ $conn->close();
 			position: relative;
 		}
 
+		.gallery-arrows {
+			display: block; /* Adjust the display property as needed */
+		}
+
 		.slides {
 			display: flex;
 			transition: transform 0.5s ease;
@@ -209,20 +179,29 @@ $conn->close();
 			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 			z-index: 1;
 		}
+		
+		#lightbox-content {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background-color: white;
+			padding: 20px;
+			width: 80%; /* Adjust width as needed */
+			max-width: 1000px; /* Maximum width */
+			max-height: 80%; /* Maximum height */
+			overflow-y: auto;
+		}
+
+		#lightbox-table input[type="text"] {
+			width: 98.5%; /* Double the width */
+		}
+		
 </style>
 
 </head>
 <body>
-    <!-- Menu Bar -->
-    <div class="menu">
-        <ul>
-            <li class="logo"><a href="landing_page.php">Logo</a></li>
-            <li class="right-links"><a href="logout.php">Logout</a></li>
-            <li class="right-links"><a href="user_profile.php">Profile</a></li>
-            <li class="right-links"><a href="about.php">About Us</a></li>
-            <li class="right-links"><a href="contact_us.php">Contact Us</a></li>
-        </ul>
-    </div>
+	<?php include 'menu.html'; ?>
     <br>
     <br>
     <br>
@@ -245,19 +224,15 @@ $conn->close();
                 <div class="text">Text for Image 3</div>
             </div>
         </div>
-        <button class="nav-button left" onclick="moveSlide(-1); event.stopPropagation();">&#10094;</button>
-        <button class="nav-button right" onclick="moveSlide(1); event.stopPropagation();">&#10095;</button>
+		<div id="gallery-arrows" class="gallery-arrows">
+			<button class="nav-button left" onclick="moveSlide(-1); event.stopPropagation();">&#10094;</button>
+			<button class="nav-button right" onclick="moveSlide(1); event.stopPropagation();">&#10095;</button>
+		</div>
     </div>
-
+	
     <?php if (!empty($table_names)): ?>
-		<div class="dropdown">
-			<select id="tableSelect" class="get-started-button">
-				<option>Select Table</option>
-				<?php foreach ($table_names as $table_name): ?>
-					<option value="<?php echo $table_name; ?>"><?php echo $table_name; ?></option>
-				<?php endforeach; ?>
-			</select>
-			<a href="next_page.php" onclick="return validateSelection()" class="next-button">Next</a>
+		<div class="centered-button">
+			<a href="compose_email.php" onclick="return validateSelection()" class="next-button">Next</a>
 			<a href="upload_page.php" class="next-button">New File</a>
 		</div>
 	<?php else: ?>
@@ -266,19 +241,11 @@ $conn->close();
 			<a href="upload_page.php" class="next-button">Get Started</a>
 		</div>
 	<?php endif; ?>
+	
+	
 
 
     <script>
-		function validateSelection() {
-        var selectBox = document.getElementById("tableSelect");
-        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-        if (selectedValue === "Select Table") {
-            alert("Please select data.");
-            return false;
-        }
-        return true;
-		}
-		
         document.addEventListener('DOMContentLoaded', () => {
             const slides = document.querySelector('.slides');
             const slideCount = slides.children.length;
@@ -289,7 +256,7 @@ $conn->close();
                 slides.style.transform = `translateX(-${index * 100}%)`;
             }
 
-            let interval = setInterval(nextSlide, 3000);
+            let interval = setInterval(nextSlide, 2000);
 
             document.querySelector('.gallery').addEventListener('mouseover', () => {
                 clearInterval(interval);

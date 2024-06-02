@@ -3,7 +3,7 @@
         'name' => 'miranda/en-masse',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'bcf65d843c2088c1c8d5bc571e104461287b617b',
+        'reference' => '52885b168dfd8f4f33321b0addc958fb2217d5ba',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -40,7 +40,7 @@
         'miranda/en-masse' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'bcf65d843c2088c1c8d5bc571e104461287b617b',
+            'reference' => '52885b168dfd8f4f33321b0addc958fb2217d5ba',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
