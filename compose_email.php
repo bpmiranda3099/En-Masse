@@ -366,32 +366,62 @@ $conn->close();
         document.getElementById("smtp-lightbox").style.display = "none";
     }
 
-	// Function to collect SMTP credentials
-	function collectSMTPCredentials() {
-		const email = document.getElementById("smtp-email").value;
-		const password = document.getElementById("smtp-password").value;
-		console.log("SMTP Email:", email); // Log SMTP email
-		console.log("SMTP Password:", password); // Log SMTP password
-		return { email, password };
-	}
+	/// Function to collect SMTP credentials
+    function collectSMTPCredentials() {
+        const email = document.getElementById("smtp-email").value;
+        const password = document.getElementById("smtp-password").value;
+        console.log("SMTP Email:", email); // Log SMTP email
+        console.log("SMTP Password:", password); // Log SMTP password
+        return { email, password };
+    }
 
-	// Modify sendEmail function to accept SMTP credentials
+	document.getElementById("send-email-lightbox").addEventListener("click", function(event) {
+		event.preventDefault(); // Prevent default form submission
+
+		// Collect SMTP credentials
+		const { email, password } = collectSMTPCredentials();
+
+		// Get values from form inputs
+		const subject = document.getElementById("subject").value;
+		const message = document.getElementById("message").value;
+		const attachmentsInput = document.getElementById("attachments");
+		let attachments = [];
+
+		// Check if there are attachments
+		if (attachmentsInput.files.length > 0) {
+			// Loop through each selected file
+			for (let i = 0; i < attachmentsInput.files.length; i++) {
+				attachments.push(attachmentsInput.files[i]);
+			}
+		}
+
+		// Perform any necessary validation here
+
+		// Extract email addresses from recipients
+		const recipientEmails = recipients.map(recipient => recipient.email);
+
+		// Log recipientEmails
+		console.log("Subject:", subject);
+		console.log("Message:", message);
+		console.log("Recipient Emails:", recipientEmails);
+		console.log("Attachments:", attachments);
+
+		// Send email via AJAX
+		sendEmail(recipientEmails, subject, message, attachments, email, password);
+	});
+
 	function sendEmail(recipients, subject, message, attachments, email, password) {
-		// Construct form data
 		const formData = new FormData();
-		formData.append('recipientsEmail[]', recipients);
+		recipients.forEach(recipient => formData.append('recipientsEmail[]', recipient));
 		formData.append('subject', subject);
 		formData.append('message', message);
 		for (let i = 0; i < attachments.length; i++) {
 			formData.append('attachmentsInput[]', attachments[i]);
 		}
-
-		// Add SMTP credentials to form data
 		formData.append('email', email);
 		formData.append('password', password);
 
-		// Send email via AJAX
-		fetch('/send-email', {
+		fetch('http://127.0.0.1:5000/send-email', {
 			method: 'POST',
 			body: formData
 		})
@@ -402,63 +432,18 @@ $conn->close();
 			throw new Error('Failed to send email');
 		})
 		.then(data => {
-			console.log("Response:", data); // Log response
-			console.log(data.message); // Log success message
-			// Handle success (e.g., show success message to user)
+			console.log("Response:", data);
+			if (data.message === "Emails sent successfully") {
+				alert("Emails sent successfully");
+			} else {
+				alert("Failed to send emails: " + data.error); // Change this line
+			}
 		})
 		.catch(error => {
-			console.error('Error:', error); // Log error
-			// Handle error (e.g., show error message to user)
+			console.error('Error:', error);
+			alert("Failed to send emails: " + error.message);
 		});
 	}
-
-	document.getElementById("send-email-lightbox").addEventListener("click", function() {
-    // Collect SMTP credentials
-    const { email, password } = collectSMTPCredentials();
-
-    // Log SMTP credentials
-    console.log("SMTP Email:", email);
-    console.log("SMTP Password:", password);
-
-    // Log other collected data
-    console.log("Recipients:", recipients);
-    console.log("Subject:", subject);
-    console.log("Message:", message);
-    console.log("Attachments:", attachments);
-
-    // Construct form data
-    const formData = new FormData();
-    recipients.forEach(recipient => formData.append('recipientsEmail[]', recipient));
-    formData.append('subject', subject);
-    formData.append('message', message);
-    for (let i = 0; i < attachments.length; i++) {
-        formData.append('attachmentsInput[]', attachments[i]);
-    }
-    // Add SMTP credentials to form data
-    formData.append('email', email);
-    formData.append('password', password);
-
-    // Send email via AJAX
-    fetch('/send-email', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error('Failed to send email');
-    })
-    .then(data => {
-        console.log("Response:", data);
-        console.log(data.message);
-        // Handle success (e.g., show success message to user)
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        // Handle error (e.g., show error message to user)
-    });
-	});
 </script>
 <script src="main.js"></script>
 </body>

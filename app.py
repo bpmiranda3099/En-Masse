@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify, session, redirect, send_file
-from flask_mail import Mail, Message
 from flask_cors import CORS  # Import CORS extension
 from werkzeug.utils import secure_filename
 import os
@@ -8,19 +7,18 @@ import openpyxl
 import pandas as pd 
 from io import BytesIO
 import requests
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+import traceback
+import logging
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "enmasse4ever"
-app.config['MAIL_SERVER'] = "smtp.gmail.com"
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
 
-mail = Mail(app)
-CORS(app) 
-
-
-
+CORS(app)
 
 DATA_QUERY_URL = "http://localhost:5000/upload"  # URL of the data_query Flask app
 
@@ -377,36 +375,110 @@ def save_table():
     except mysql.connector.Error as err:
         return jsonify({"message": "An error occurred", "error": str(err)}), 500
 
-@app.route('/send-email', methods=['POST'])
-def send_email():
-    # Check if SMTP credentials are provided
-    if 'email' in request.form and 'password' in request.form:
-        email = request.form['email']
-        password = request.form['password']
 
-        # Set SMTP credentials dynamically
-        app.config['MAIL_USERNAME'] = email
-        app.config['MAIL_PASSWORD'] = password
-
-    # Get form data
-    recipients = request.form.getlist('recipientsEmail[]')
-    subject = request.form['subject']
-    message = request.form['message']
-    attachments = request.files.getlist('attachmentsInput[]')
-
-    # Prepare email
-    msg = Message(subject, recipients=recipients)
-    msg.body = message
-    for attachment in attachments:
-        msg.attach(attachment.filename, attachment.read(), attachment.content_type)
-
-    # Send email
+def send_email(sender_email, password, recipients, subject, message):
     try:
-        mail.send(msg)
-        return jsonify({"message": "Email sent successfully"}), 200
-    except Exception as e:
-        return jsonify({"message": "Failed to send email", "error": str(e)}), 500
+        # Office 365 SMTP server details
+        smtp_server = 'smtp-mail.outlook.com'
+        smtp_port = 587
 
-       
+        # Prepare the email message
+        msg = MIMEMultipart()
+        msg['From'] = sender_email
+        msg['To'] = ", ".join(recipients)
+        msg['Subject'] = subject
+        msg.attach(MIMEText(message, 'plain'))
+
+        # Connect to the Office 365 SMTP server and send the email
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()  # Secure the connection
+            server.login(sender_email, password)
+            server.sendmail(sender_email, recipients, msg.as_string())
+
+        print('Email sent successfully!')
+
+    except smtplib.SMTPAuthenticationError as e:
+        error_message = "SMTP Authentication Error: " + str(e)
+        logging.error(error_message)
+        raise e
+    except Exception as e:
+        error_message = "Error sending email: " + str(e)
+        logging.error(error_message)
+        traceback.print_exc()  # Log the full traceback for debugging
+        raise e
+
+def send_email_attachment(sender_email, password, recipients, subject, message, attachments=None):
+    try:
+        # Outlook SMTP server details
+        smtp_server = 'smtp-mail.outlook.com'
+        smtp_port = 587
+
+        # Connect to the Outlook SMTP server
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()  # Secure the connection
+            server.login(sender_email, password)
+
+            # Iterate over each recipient and their corresponding attachment
+            for recipient, attachment in zip(recipients, attachments or []):
+                # Prepare the email message
+                msg = MIMEMultipart()
+                msg['From'] = sender_email
+                msg['To'] = recipient
+                msg['Subject'] = subject
+                msg.attach(MIMEText(message, 'plain'))
+
+                # Attach the file if provided
+                if attachment:
+                    part = MIMEBase('application', 'octet-stream')
+                    part.set_payload(attachment.read())
+                    encoders.encode_base64(part)
+                    part.add_header('Content-Disposition', f"attachment; filename={secure_filename(attachment.filename)}")
+                    msg.attach(part)
+
+                # Send the email to the current recipient
+                server.sendmail(sender_email, recipient, msg.as_string())
+
+        print('Emails sent successfully!')
+
+    except smtplib.SMTPAuthenticationError as e:
+        error_message = "SMTP Authentication Error: " + str(e)
+        logging.error(error_message)
+        raise e
+    except Exception as e:
+        error_message = "Error sending emails: " + str(e)
+        logging.error(error_message)
+        traceback.print_exc()  # Log the full traceback for debugging
+        raise e
+
+@app.route('/send-email', methods=['POST'])
+def send_email_route():
+    try:
+        # Get form data
+        recipients = request.form.getlist('recipientsEmail[]')
+        subject = request.form['subject']
+        message = request.form['message']
+        attachments = request.files.getlist('attachmentsInput[]')
+        sender_email = request.form['email']  # Retrieve sender email from form data
+
+        # Collect SMTP credentials
+        password = request.form['password']
+        
+        if not attachments:
+            send_email(sender_email, password, recipients, subject, message)
+            return jsonify({"message": "Emails sent successfully"}), 200
+        else:
+            send_email_attachment(sender_email, password, recipients, subject, message, attachments)
+            return jsonify({"message": "Emails sent successfully"}), 200
+            
+    except smtplib.SMTPAuthenticationError as e:
+        error_message = "SMTP Authentication Error: " + str(e)
+        logging.error(error_message)
+        return jsonify({"message": "Failed to authenticate with SMTP server", "error": error_message}), 500
+    except Exception as e:
+        error_message = "Error sending emails: " + str(e)
+        logging.error(error_message)
+        return jsonify({"message": "Failed to send emails", "error": error_message}), 500
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
