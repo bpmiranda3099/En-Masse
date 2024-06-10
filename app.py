@@ -14,6 +14,7 @@ from email.mime.base import MIMEBase
 from email import encoders
 import traceback
 import logging
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "enmasse4ever"
@@ -60,16 +61,25 @@ def login():
         db = mysql.connector.connect(**db_config)
         cursor = db.cursor(dictionary=True)
 
-        execute_sql_file('user_data.sql', cursor)
-        
         query = "SELECT * FROM login WHERE username = %s OR email = %s"
         cursor.execute(query, (login_id, login_id))
         user = cursor.fetchone()
 
         if user and 'password' in user and user['password'] == password:
             session['username'] = user['username']
+
+            # Record login date
+            login_time = datetime.now()
+            query = "INSERT INTO user_sessions (user_id, login_date) VALUES (%s, %s)"
+            cursor.execute(query, (user['user_id'], login_time))
+            db.commit()
+
             response = {"message": "Login successful", "user": user}
         else:
+            # Record login attempt
+            query = "INSERT INTO login_attempts (user_id, success) VALUES (%s, %s)"
+            cursor.execute(query, (user['user_id'] if user else None, False))
+            db.commit()
             response = {"message": "Invalid username/email or password"}
         
         cursor.close()
@@ -153,8 +163,16 @@ def upload_page():
 
 @app.route('/logout', methods=['GET'])
 def logout():
-    session.pop('username', None)
-    return redirect("/login")
+    try:
+        # Clear the session
+        session.pop('username', None)
+        
+        # Redirect to Flask logout endpoint
+        return redirect("/login")
+    except Exception as e:
+        # Log any errors and handle them appropriately
+        print(f"Error during logout: {e}")
+        return redirect("/login")  # Redirect to login page even if an error occurs
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -209,6 +227,20 @@ def upload_file():
             # Insert information into user_uploaded_tables
             cursor.execute("INSERT INTO user_uploaded_tables (user_id, table_name) VALUES (%s, %s)", (user_id, table_name))
 
+            # Record file upload metrics
+            file_type = file.content_type
+            file_size = len(file.read())
+            cursor.execute("INSERT INTO file_uploads (user_id, file_name, success, file_type, file_size) VALUES (%s, %s, %s, %s, %s)",
+                           (user_id, file.filename, True, file_type, file_size))
+
+            # Update or insert into data_table_metrics
+            cursor.execute("SELECT * FROM data_table_metrics WHERE user_id = %s", (user_id,))
+            metrics = cursor.fetchone()
+            if metrics:
+                cursor.execute("UPDATE data_table_metrics SET tables_created = tables_created + 1 WHERE user_id = %s", (user_id,))
+            else:
+                cursor.execute("INSERT INTO data_table_metrics (user_id, tables_created, tables_deleted) VALUES (%s, %s, %s)", (user_id, 1, 0))
+
             db.commit()
             cursor.close()
             db.close()
@@ -216,6 +248,7 @@ def upload_file():
             return jsonify({"message": "File uploaded and processed successfully"}), 200
         except Exception as e:
             return jsonify({"message": "Error processing the file", "error": str(e)}), 500
+
 
 
 @app.route('/get_user_tables', methods=['POST'])
@@ -315,18 +348,28 @@ def delete_table():
 
         # Fetch user_id from the username
         cursor.execute("SELECT user_id FROM login WHERE username = %s", (username,))
-        user_id = cursor.fetchone()
+        user = cursor.fetchone()
 
-        if not user_id:
+        if not user:
             return jsonify({"message": "User not found"}), 404
+
+        user_id = user[0]  # Extract user_id from the result
 
         # Delete the table
         cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
 
         # Delete the entry from user_uploaded_tables
-        cursor.execute("DELETE FROM user_uploaded_tables WHERE table_name = %s AND user_id = %s", (table_name, user_id[0]))
-        db.commit()
+        cursor.execute("DELETE FROM user_uploaded_tables WHERE table_name = %s AND user_id = %s", (table_name, user_id))
 
+        # Update or insert into data_table_metrics
+        cursor.execute("SELECT * FROM data_table_metrics WHERE user_id = %s", (user_id,))
+        metrics = cursor.fetchone()
+        if metrics:
+            cursor.execute("UPDATE data_table_metrics SET tables_deleted = tables_deleted + 1 WHERE user_id = %s", (user_id,))
+        else:
+            cursor.execute("INSERT INTO data_table_metrics (user_id, tables_created, tables_deleted) VALUES (%s, %s, %s)", (user_id, 0, 1))
+
+        db.commit()
         cursor.close()
         db.close()
 
@@ -378,8 +421,7 @@ def save_table():
 
 def send_email(sender_email, password, recipients, subject, message):
     try:
-        # Office 365 SMTP server details
-        smtp_server = 'smtp-mail.outlook.com'
+        smtp_server = 'smtp.mailgun.org'
         smtp_port = 587
 
         # Prepare the email message
@@ -389,7 +431,6 @@ def send_email(sender_email, password, recipients, subject, message):
         msg['Subject'] = subject
         msg.attach(MIMEText(message, 'plain'))
 
-        # Connect to the Office 365 SMTP server and send the email
         with smtplib.SMTP(smtp_server, smtp_port) as server:
             server.starttls()  # Secure the connection
             server.login(sender_email, password)
@@ -410,7 +451,7 @@ def send_email(sender_email, password, recipients, subject, message):
 def send_email_attachment(sender_email, password, recipients, subject, message, attachments=None):
     try:
         # Outlook SMTP server details
-        smtp_server = 'smtp-mail.outlook.com'
+        smtp_server = 'smtp.mailgun.org'
         smtp_port = 587
 
         # Connect to the Outlook SMTP server

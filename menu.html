@@ -1,12 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome and Upload Excel File</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Minimalist Design</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* CSS for menu bar */
+        @font-face {
+            font-family: 'Nothing';
+            src: url('/assets/fonts/nothing-font.otf');
+        }
+
+        body {
+            font-family: 'Nothing', sans-serif;
+            background-color: #fff;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
         .menu {
-            overflow: hidden;
             position: relative;
+            overflow: hidden;
+            background-color: #fff;
+            width: 100%;
+            padding: 10px 0;
         }
 
         .menu ul {
@@ -17,44 +35,110 @@
 
         .menu li {
             float: left;
-        }
-
-        .menu li.logo {
-            float: left; /* Keep the logo to the left */
+            margin-right: 20px;
         }
 
         .menu li a {
             display: block;
-            color: #333;
+            color: #000;
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
         }
 
         .menu li a:hover {
-            background-color: #ddd;
-            color: black;
+            background-color: #000;
+            color: #fff;
         }
 
         .menu .right-links {
-            float: right; /* Align right */
-            margin-left: 10px; /* Add a small margin between links */
+            float: right;
+            margin-left: 10px;
         }
 
-        /* Remaining CSS styles */
-        /* Include the rest of your CSS styles here */
+        .menu .toggle-menu {
+            display: none;
+        }
+
+        .menu li.logo {
+            padding: 10px;
+            margin: 0;
+            float: left;
+        }
+
+        .menu li.logo a {
+            font-size: 10px;
+            color: #000;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .menu ul {
+                width: 100%;
+                text-align: center;
+            }
+
+            .menu li {
+                display: inline-block;
+                float: none;
+                margin: 0;
+            }
+
+            .menu .right-links {
+                display: none;
+            }
+
+            .menu .toggle-menu {
+                display: block;
+                float: right;
+                margin-right: 20px; /* Adjust the margin to your preference */
+                cursor: pointer;
+            }
+
+            .menu.responsive .toggle-menu {
+                float: none;
+                margin-right: 0;
+            }
+
+            .menu.responsive .right-links {
+                display: block;
+                float: none;
+                text-align: center;
+                margin-top: 10px; /* Adjust the margin to separate links from the logo */
+            }
+
+            .menu.responsive li.logo {
+                margin-bottom: 10px; /* Adjust the margin to separate logo from links */
+            }
+
+            .menu.responsive .right-links {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Menu Bar -->
-    <div class="menu">
+    <header class="menu">
         <ul>
             <li class="logo"><a href="landing_page.php">Logo</a></li>
-            <li class="right-links"><a href="logout.php">Logout</a></li>
+            <li class="right-links"><a href="register.php">Signup</a></li>
             <li class="right-links"><a href="user_profile.php">Profile</a></li>
             <li class="right-links"><a href="about.php">About Us</a></li>
             <li class="right-links"><a href="contact_us.php">Contact Us</a></li>
+			<br>
+            <li class="toggle-menu" onclick="toggleMenu()">&#9776;</li>
         </ul>
-    </div>
+    </header>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.querySelector('.menu');
+            if (menu.className === 'menu') {
+                menu.className += ' responsive';
+            } else {
+                menu.className = 'menu';
+            }
+        }
+    </script>
 </body>
 </html>

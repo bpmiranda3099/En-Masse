@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         echo "Username or Email already exists!";
     } else {
-        // Insert into login table
+        // Insert into login table (register_date is automatically handled by MySQL)
         $login_query = "INSERT INTO login (username, email, password, user_type) VALUES ('$user_username', '$user_email', '$user_password', '$user_type')";
         if ($conn->query($login_query) === TRUE) {
             $user_id = $conn->insert_id;

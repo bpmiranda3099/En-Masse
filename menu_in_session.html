@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Minimalist Design</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @font-face {
+            font-family: 'Nothing';
+            src: url('/assets/fonts/nothing-font.otf');
+        }
+
+        body {
+            font-family: 'Nothing', sans-serif;
+            background-color: #fff;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+        .menu {
+            overflow: hidden;
+            position: relative;
+            background-color: #fff;
+            width: 100%;
+            padding: 10px 0;
+        }
+
+        .menu ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu li {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .menu li.logo {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .menu li a {
+            display: block;
+            color: #000;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .menu li a:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .menu .right-links {
+            float: right;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="menu">
+        <ul>
+            <li class="logo"><a href="landing_page.php">Logo</a></li>
+            <li class="right-links"><a href="logout.php">Logout</a></li>
+            <li class="right-links"><a href="user_profile.php">Profile</a></li>
+            <li class="right-links"><a href="about.php">About Us</a></li>
+            <li class="right-links"><a href="contact_us.php">Contact Us</a></li>
+        </ul>
+    </header>
+</body>
+</html>

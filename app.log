@@ -1,0 +1,51 @@
+2024-06-09 13:43:33,569 - WARNING -  * Debugger is active!
+2024-06-09 13:43:33,569 - INFO -  * Debugger PIN: 112-530-519
+2024-06-09 13:43:49,090 - INFO - 127.0.0.1 - - [09/Jun/2024 13:43:49] "POST /login HTTP/1.1" 200 -
+2024-06-09 13:43:50,979 - INFO - 127.0.0.1 - - [09/Jun/2024 13:43:50] "[32mGET /logout HTTP/1.1[0m" 302 -
+2024-06-09 13:48:25,637 - INFO - 127.0.0.1 - - [09/Jun/2024 13:48:25] "POST /login HTTP/1.1" 200 -
+2024-06-09 13:48:31,305 - INFO - 127.0.0.1 - - [09/Jun/2024 13:48:31] "[32mGET /logout HTTP/1.1[0m" 302 -
+2024-06-09 13:50:39,909 - INFO -  * Detected change in 'C:\\xampp\\htdocs\\php\\project\\app.py', reloading
+2024-06-09 13:50:41,676 - WARNING -  * Debugger is active!
+2024-06-09 13:50:41,681 - INFO -  * Debugger PIN: 112-530-519
+2024-06-09 13:50:45,562 - INFO - 127.0.0.1 - - [09/Jun/2024 13:50:45] "POST /login HTTP/1.1" 200 -
+2024-06-09 13:50:51,671 - INFO - 127.0.0.1 - - [09/Jun/2024 13:50:51] "[32mGET /logout HTTP/1.1[0m" 302 -
+2024-06-09 13:52:28,309 - INFO -  * Detected change in 'C:\\xampp\\htdocs\\php\\project\\app.py', reloading
+2024-06-09 13:52:30,074 - WARNING -  * Debugger is active!
+2024-06-09 13:52:30,078 - INFO -  * Debugger PIN: 112-530-519
+2024-06-09 13:53:13,282 - INFO -  * Detected change in 'C:\\xampp\\htdocs\\php\\project\\app.py', reloading
+2024-06-09 13:54:59,601 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.10:5000
+2024-06-09 13:54:59,601 - INFO - [33mPress CTRL+C to quit[0m
+2024-06-09 13:54:59,604 - INFO -  * Restarting with stat
+2024-06-09 13:55:01,194 - WARNING -  * Debugger is active!
+2024-06-09 13:55:01,198 - INFO -  * Debugger PIN: 112-530-519
+2024-06-09 13:55:02,628 - INFO - 127.0.0.1 - - [09/Jun/2024 13:55:02] "[35m[1mPOST /login HTTP/1.1[0m" 500 -
+2024-06-09 13:55:45,404 - INFO -  * Detected change in 'C:\\xampp\\htdocs\\php\\project\\app.py', reloading
+2024-06-09 13:55:45,527 - INFO -  * Restarting with stat
+2024-06-09 13:55:47,281 - WARNING -  * Debugger is active!
+2024-06-09 13:55:47,285 - INFO -  * Debugger PIN: 112-530-519
+2024-06-09 13:56:30,517 - INFO -  * Detected change in 'C:\\xampp\\htdocs\\php\\project\\app.py', reloading
+2024-06-09 13:56:30,637 - INFO -  * Restarting with stat
+2024-06-09 13:56:32,276 - WARNING -  * Debugger is active!
+2024-06-09 13:56:32,280 - INFO -  * Debugger PIN: 112-530-519
+2024-06-09 13:56:34,046 - INFO - 127.0.0.1 - - [09/Jun/2024 13:56:34] "POST /login HTTP/1.1" 200 -
+2024-06-09 13:56:39,822 - INFO - 127.0.0.1 - - [09/Jun/2024 13:56:39] "[32mGET /logout HTTP/1.1[0m" 302 -
+2024-06-09 13:57:53,708 - INFO -  * Detected change in 'C:\\xampp\\htdocs\\php\\project\\app.py', reloading
+2024-06-09 13:57:53,877 - INFO -  * Restarting with stat
+2024-06-09 13:57:55,551 - WARNING -  * Debugger is active!
+2024-06-09 13:57:55,555 - INFO -  * Debugger PIN: 112-530-519
+2024-06-09 13:58:11,676 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.10:5000
+2024-06-09 13:58:11,676 - INFO - [33mPress CTRL+C to quit[0m
+2024-06-09 13:58:11,678 - INFO -  * Restarting with stat
+2024-06-09 13:58:13,230 - WARNING -  * Debugger is active!
+2024-06-09 13:58:13,234 - INFO -  * Debugger PIN: 112-530-519
+2024-06-09 13:58:22,607 - INFO - 127.0.0.1 - - [09/Jun/2024 13:58:22] "POST /login HTTP/1.1" 200 -
+2024-06-09 13:58:31,417 - INFO - 127.0.0.1 - - [09/Jun/2024 13:58:31] "[32mGET /logout HTTP/1.1[0m" 302 -
+2024-06-09 14:00:19,773 - INFO -  * Detected change in 'C:\\xampp\\htdocs\\php\\project\\app.py', reloading
+2024-06-09 14:00:19,895 - INFO -  * Restarting with stat
+2024-06-09 14:01:12,854 - INFO -  * Restarting with stat

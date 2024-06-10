@@ -44,11 +44,10 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Example</title>
+    <title>Compose Email</title>
 	<link rel="stylesheet" href="styles.css">
 	<style>
         body {
-			font-family: Arial, sans-serif;
 			background-color: #f4f4f4;
 			margin: 0;
 			padding: 0;
@@ -94,7 +93,7 @@ $conn->close();
     </style>
 </head>
 <body>
-	<?php include 'menu.html'; ?>
+	<?php include 'menu_in_session.html'; ?>
 	<?php if (!empty($table_names)): ?>
 		<div class="dropdown">
 			<select id="tableSelect" class="get-started-button">
@@ -337,8 +336,6 @@ $conn->close();
 			}
 		}
 
-		// Perform any necessary validation here
-
 		// Extract email addresses from recipients
 		const recipientEmails = recipients.map(recipient => recipient.email);
 
@@ -435,6 +432,7 @@ $conn->close();
 			console.log("Response:", data);
 			if (data.message === "Emails sent successfully") {
 				alert("Emails sent successfully");
+				location.reload();
 			} else {
 				alert("Failed to send emails: " + data.error); // Change this line
 			}

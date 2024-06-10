@@ -43,7 +43,7 @@ $conn->close();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome and Upload Excel File</title>
+    <title>Home</title>
     <style>
 
 		/* CSS for dropdown menu */
@@ -96,7 +96,6 @@ $conn->close();
 		}
 
 		body {
-			font-family: Arial, sans-serif;
 			margin: 0;
 		}
 
@@ -201,7 +200,7 @@ $conn->close();
 
 </head>
 <body>
-	<?php include 'menu.html'; ?>
+	<?php include 'menu_in_session.html'; ?>
     <br>
     <br>
     <br>

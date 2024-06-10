@@ -50,7 +50,7 @@ $upload_page = "http://127.0.0.1:5000/upload"; // Change to the appropriate endp
     </style>
 </head>
 <body>
-    <?php include 'menu.html'; ?>
+    <?php include 'menu_in_session.html'; ?>
     <br><br><br><br>
     <div class="upload-container">
         <h2>Upload Excel File</h2>
