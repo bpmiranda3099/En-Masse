@@ -386,13 +386,28 @@ $conn->close();
 
 		// Check if there are attachments
 		if (attachmentsInput.files.length > 0) {
+			const oversizedFiles = []; // Array to store the names of files that are too large
+			const attachments = []; // Array to store the valid files
+
 			// Loop through each selected file
 			for (let i = 0; i < attachmentsInput.files.length; i++) {
-				attachments.push(attachmentsInput.files[i]);
+				const file = attachmentsInput.files[i];
+				// Check file size (size is in bytes, 25MB = 25 * 1024 * 1024)
+				if (file.size > 25 * 1024 * 1024) {
+					oversizedFiles.push(file.name); // Add file name to the array
+				} else {
+					attachments.push(file);
+				}
+			}
+
+			// If there are any oversized files, alert the user
+			if (oversizedFiles.length > 0) {
+				hideSMTPLightbox();
+				alert(`The following file(s) exceed the 25MB size limit:\n- ${oversizedFiles.join('\n- ')}`);
+				attachmentsInput.value = ''; // Clear the file input
+				return; // Stop processing if any file is too large
 			}
 		}
-
-		// Perform any necessary validation here
 
 		// Extract email addresses from recipients
 		const recipientEmails = recipients.map(recipient => recipient.email);
