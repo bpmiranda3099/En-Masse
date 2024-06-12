@@ -2,74 +2,87 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Minimalist Design</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         @font-face {
-            font-family: 'Nothing';
-            src: url('/assets/fonts/nothing-font.otf');
-        }
+			font-family: 'Montserrat';
+			font-style: normal;
+			font-weight: 400;
+			src: url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap') format('woff2'); /* Adjust the font-weight and URL as needed */
+		}
 
         body {
-            font-family: 'Nothing', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             background-color: #fff;
             color: #000;
             margin: 0;
             padding: 0;
         }
+
         .menu {
-            overflow: hidden;
-            position: relative;
             background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             width: 100%;
             padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .menu ul {
             list-style-type: none;
             margin: 0;
             padding: 0;
+            display: flex;
         }
 
         .menu li {
-            float: left;
-            margin-right: 20px;
-        }
-
-        .menu li.logo {
-            float: left;
-            margin-right: 20px;
+			margin-left: 10px;
+            margin-right: 10px;
         }
 
         .menu li a {
-            display: block;
             color: #000;
-            text-align: center;
-            padding: 14px 16px;
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
         .menu li a:hover {
-            background-color: #000;
-            color: #fff;
+            color: #777;
         }
 
-        .menu .right-links {
-            float: right;
-            margin-left: 10px;
+        .menu .logo a {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .logo-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
 <body>
+	<br>
     <header class="menu">
-        <ul>
-            <li class="logo"><a href="landing_page.php">Logo</a></li>
-            <li class="right-links"><a href="logout.php">Logout</a></li>
-            <li class="right-links"><a href="user_profile.php">Profile</a></li>
-            <li class="right-links"><a href="about.php">About Us</a></li>
-            <li class="right-links"><a href="contact_us.php">Contact Us</a></li>
-        </ul>
+        <div class="logo-container">
+            <div class="logo"><a href="landing_page.php">Logo</a></div>
+        </div>
+		<br>
+        <div class="links-container">
+            <ul>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="about.php">About</a></li>
+                <li><a href="contact_us.php">Contact</a></li>
+				<li><a href="user_profile.php">Profile</a></li>
+				<li><a href="logout.php">Logout</a></li>
+            </ul>
+        </div>
     </header>
 </body>
 </html>

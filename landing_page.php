@@ -1,13 +1,6 @@
 <?php
 session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION['username'])) {
-    // If not logged in, redirect to login page
-    header("Location: login.php");
-    exit();
-}
-
 // Database configuration
 $db_host = "localhost";
 $db_username = "root";
@@ -22,189 +15,100 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch table names tied to the current user
-$username = $_SESSION['username'];
-$tables_query = "SELECT table_name FROM user_uploaded_tables WHERE user_id = (SELECT user_id FROM login WHERE username = '$username')";
-$tables_result = $conn->query($tables_query);
-
-$table_names = array();
-if ($tables_result->num_rows > 0) {
-    while ($row = $tables_result->fetch_assoc()) {
-        $table_names[] = $row['table_name'];
-    }
+// Check if the user is already logged in
+if(isset($_SESSION['user'])){
+    exit;
 }
 
-$conn->close();
+// If the login form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Check if the username and password are valid
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    
+    // Perform your authentication logic here, e.g., querying the database
+    
+    // Assuming authentication is successful, set session variables
+    $_SESSION['user'] = $username;
+    
+    // Redirect the user to a logged-in page
+    header("Location: index.php");
+    exit;
+}
 
+// Close the database connection
+$conn->close();
 ?>
 
-
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Home</title>
-    <style>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-		/* CSS for dropdown menu */
-		.dropdown {
-			display: flex;
-			justify-content: center;
-			margin-top: 20px;
-		}
+  <title>Maxim Bootstrap Template - Index</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 
-		.dropdown button,
-		.get-started-button,
-		.next-button {
-			background-color: white;
-			color: black;
-			border: none;
-			padding: 10px 20px;
-			cursor: pointer;
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-			z-index: 1;
-		}
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="..." crossorigin="anonymous">
 
-		.dropdown-content {
-			display: none;
-			position: absolute;
-			background-color: #f9f9f9;
-			min-width: 160px;
-			box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-			z-index: 1;
-		}
 
-		.dropdown-content a {
-			color: black;
-			padding: 12px 16px;
-			text-decoration: none;
-			display: block;
-		}
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
 
-		.dropdown-content a:hover {
-			background-color: #f1f1f1;
-		}
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
-		.dropdown:hover .dropdown-content {
-			display: block;
-		}
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
 
-		/* CSS for centering login form */
-		.login-container {
-			text-align: center;
-			margin-top: 100px;
-		}
-
-		body {
-			margin: 0;
-		}
-
-		.gallery {
-			width: 700px;
-			height: 380px;
-			overflow: hidden;
-			position: relative;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-			background: transparent;
-			cursor: pointer;
-			margin: auto; /* Center the gallery */
-			position: relative;
-		}
-
-		.gallery-arrows {
-			display: block; /* Adjust the display property as needed */
-		}
-
-		.slides {
-			display: flex;
-			transition: transform 0.5s ease;
-		}
-
-		.slide {
-			min-width: 100%;
-			box-sizing: border-box;
-			position: relative;
-		}
-
-		.slide img {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			display: block;
-		}
-
-		.text {
-			position: absolute;
-			bottom: 10px;
-			left: 10px;
-			color: white;
-			background-color: rgba(0, 0, 0, 0.5);
-			padding: 5px;
-			border-radius: 3px;
-		}
-
-		.nav-button {
-			position: absolute;
-			top: 50%;
-			transform: translateY(-50%);
-			background-color: rgba(255, 255, 255, 0.5);
-			color: white;
-			border: none;
-			padding: 10px;
-			cursor: pointer;
-			z-index: 1;
-		}
-
-		.nav-button.left {
-			left: 0;
-		}
-
-		.nav-button.right {
-			right: 0;
-		}
-
-		/* Adjustments for the centered button */
-		.centered-button {
-			text-align: center;
-			margin-top: 20px; /* Adjust top margin as needed */
-		}
-
-		.centered-button .next-button {
-			background-color: white;
-			color: black;
-			border: none;
-			padding: 10px 20px;
-			cursor: pointer;
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-			z-index: 1;
-		}
-		
-		#lightbox-content {
-			position: fixed;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			background-color: white;
-			padding: 20px;
-			width: 80%; /* Adjust width as needed */
-			max-width: 1000px; /* Maximum width */
-			max-height: 80%; /* Maximum height */
-			overflow-y: auto;
-		}
-
-		#lightbox-table input[type="text"] {
-			width: 98.5%; /* Double the width */
-		}
-		
-</style>
-
+  <!-- =======================================================
+  * Template Name: Maxim
+  * Template URL: https://bootstrapmade.com/maxim-free-onepage-bootstrap-theme/
+  * Updated: Mar 17 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
+
 <body>
-	<?php include 'menu_in_session.html'; ?>
-    <br>
-    <br>
-    <br>
-    <div id="gallery" class="gallery" onclick="moveSlide(1)">
+  <!-- Header -->
+    <header id="header" class="fixed-top d-flex align-items-center">
+        <div class="container d-flex justify-content-between">
+            <div class="logo">
+                <h1><a href="index.php">en masse.</a></h1>
+            </div>
+
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto" href="index.php">Home</a></li>
+                    <li><a class="nav-link scrollto" href="index.php#about">About</a></li>
+                    <li><a class="nav-link scrollto" href="index.php#team">Team</a></li>
+                    <li><a class="nav-link scrollto" href="index.php#contact">Contact</a></li>
+                    <li><a class="nav-link scrollto" href="user_profile.php">Profile</a></li>
+					<li><a href="logout.php" class="btn">Logout</a>
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav>
+        </div>
+    </header>
+    <!-- End Header -->
+
+  <main>
+	<br><br><br><br><br><br>
+	<div id="gallery" class="gallery" onclick="moveSlide(1)" data-aos="fade-right">
+		<br>
+		<br>
+		<br>
         <div class="slides">
             <div class="slide">
                 <img src="image1.jpg" alt="Image 1">
@@ -228,23 +132,87 @@ $conn->close();
 			<button class="nav-button right" onclick="moveSlide(1); event.stopPropagation();">&#10095;</button>
 		</div>
     </div>
-	
-    <?php if (!empty($table_names)): ?>
+	<div class="row mt-5 justify-content-center" data-aos="fade-up">
 		<div class="centered-button">
-			<a href="compose_email.php" onclick="return validateSelection()" class="next-button">Next</a>
-			<a href="upload_page.php" class="next-button">New File</a>
+			<a href="compose_email.php" class="next-button">Compose Email</a>
+			<a href="upload_page.php" class="next-button">Upload Data</a>
 		</div>
-	<?php else: ?>
-		<br>
-		<div class="centered-button">
-			<a href="upload_page.php" class="next-button">Get Started</a>
-		</div>
-	<?php endif; ?>
-	
-	
+	</div>
+	<br>
+	<br>
+	<br>
+  </main><!-- End #main -->
 
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
 
-    <script>
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-info">
+              <h3>en masse.</h3>
+              <p>
+                LPU - C, Governor's Dr<br>
+                General Trias, Cavite, PH<br><br>
+                <strong>Phone:</strong> <br>
+				+639602056529<br><br>
+                <strong>Email:</strong> postmaster@.mg.enmasse.me<br>
+              </p>
+			  <br>
+              <div>
+				<a href="mailto:postmaster@mg.enmasse.me"><i class="fas fa-envelope" style="color: white; font-size: 24px;"></i></a>
+				<a href="https://github.com/bpmiranda3099/en-masse"><i class="bi bi-github" style="color: white; font-size: 24px;"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+			<br>
+			<br>
+            <h4>Useful Links</h4>
+			<br>
+            <ul>
+              <li><a href="index.php">Home</a></li>
+              <li><a href="index.php#about">About</a></li>
+			  <li><a href="index.php#team">Team</a></li>
+			  <li><a href="index.php#contact">Contact</a></li>
+              <li><a href="#">Terms of service</a></li>
+              <li><a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Maxim</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/maxim-free-onepage-bootstrap-theme/ -->
+        Designed by <a href="https://bootstrapmade.com/" style="color: white;">BootstrapMade</a>
+      </div>
+    </div>
+	
+  </footer><!-- End Footer -->
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+  
+  <!-- Sliding Gallery JS -->
+  <script>
         document.addEventListener('DOMContentLoaded', () => {
             const slides = document.querySelector('.slides');
             const slideCount = slides.children.length;
@@ -270,7 +238,19 @@ $conn->close();
                 slides.style.transform = `translateX(-${index * 100}%)`;
             };
         });
+		
+		document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                once: true 
+            });
+            
+            setTimeout(function() {
+                document.querySelectorAll('[data-aos]').forEach(function(element) {
+                    element.classList.add('aos-animate');
+                });
+            }, 100); 
+        });
     </script>
 </body>
-</html>
 
+</html>

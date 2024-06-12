@@ -21,12 +21,18 @@ CREATE TABLE IF NOT EXISTS user_details (
     FOREIGN KEY (user_id) REFERENCES login(user_id) ON DELETE CASCADE
 );
 
+-- Drop the trigger if it exists before creating it
+DROP TRIGGER IF EXISTS before_user_details_insert;
+
 -- Create a trigger to enforce sentence case on insert
 CREATE TRIGGER before_user_details_insert
 BEFORE INSERT ON user_details
 FOR EACH ROW
 SET NEW.first_name = CONCAT(UPPER(LEFT(NEW.first_name, 1)), LOWER(SUBSTRING(NEW.first_name, 2))),
     NEW.last_name = CONCAT(UPPER(LEFT(NEW.last_name, 1)), LOWER(SUBSTRING(NEW.last_name, 2)));
+
+-- Drop the trigger if it exists before creating it
+DROP TRIGGER IF EXISTS before_user_details_update;
 
 -- Create a trigger to enforce sentence case on update
 CREATE TRIGGER before_user_details_update
@@ -77,4 +83,3 @@ CREATE TABLE IF NOT EXISTS data_table_metrics (
     tables_deleted INT,
     FOREIGN KEY (user_id) REFERENCES login(user_id) ON DELETE CASCADE
 );
-

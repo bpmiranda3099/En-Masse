@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, session, redirect, send_file
-from flask_cors import CORS  # Import CORS extension
+from flask_cors import CORS 
 from werkzeug.utils import secure_filename
 import os
 import mysql.connector
@@ -19,7 +19,7 @@ from datetime import datetime
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "enmasse4ever"
 
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 DATA_QUERY_URL = "http://localhost:5000/upload"  # URL of the data_query Flask app
 
