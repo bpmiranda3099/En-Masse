@@ -3,6 +3,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
 import mysql.connector
+from mysql.connector import Error
 import openpyxl
 import pandas as pd 
 from io import BytesIO
@@ -15,6 +16,7 @@ from email import encoders
 import traceback
 import logging
 from datetime import datetime
+import bcrypt
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "enmasse4ever"
@@ -54,10 +56,18 @@ def create_unique_table_name(username, cursor):
 
 @app.route('/login', methods=['POST'])
 def login():
-    login_id = request.form['login']
-    password = request.form['password']
-
     try:
+        if request.is_json:
+            data = request.get_json()
+            login_id = data.get('login')
+            password = data.get('password')
+        else:
+            login_id = request.form.get('login')
+            password = request.form.get('password')
+
+        if not login_id or not password:
+            raise ValueError("Missing login or password in request")
+
         db = mysql.connector.connect(**db_config)
         cursor = db.cursor(dictionary=True)
 
@@ -65,7 +75,7 @@ def login():
         cursor.execute(query, (login_id, login_id))
         user = cursor.fetchone()
 
-        if user and 'password' in user and user['password'] == password:
+        if user and 'password' in user and bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
             session['username'] = user['username']
 
             # Record login date
@@ -74,20 +84,16 @@ def login():
             cursor.execute(query, (user['user_id'], login_time))
             db.commit()
 
-            response = {"message": "Login successful", "user": user}
-        else:
-            # Record login attempt
-            query = "INSERT INTO login_attempts (user_id, success) VALUES (%s, %s)"
-            cursor.execute(query, (user['user_id'] if user else None, False))
-            db.commit()
-            response = {"message": "Invalid username/email or password"}
-        
-        cursor.close()
-        db.close()
-    except mysql.connector.Error as err:
-        response = {"message": "An error occurred", "error": str(err)}
+            cursor.close()
+            db.close()
 
-    return jsonify(response)
+            return jsonify({"message": "Login successful", "user": user}), 200
+        else:
+            cursor.close()
+            db.close()
+            return jsonify({"message": "Invalid username/email or password"}), 401
+    except (Error, ValueError) as e:
+        return jsonify({"message": "An error occurred", "error": str(e)}), 500
 
 @app.route('/upload_page', methods=['POST'])
 def upload_page():

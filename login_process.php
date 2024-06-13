@@ -1,41 +1,43 @@
 <?php
-session_start();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
+    $login_id = $_POST['login'];
+    $password = $_POST['password'];
 
-// Retrieve form data
-$login_id = $_POST['login'];
-$password = $_POST['password'];
+    // Prepare data to send to the Flask endpoint
+    $data = array(
+        'login' => $login_id,
+        'password' => $password
+    );
+    $data_json = json_encode($data);
 
-// Send form data to Flask backend
-$url = 'http://127.0.0.1:5000/login'; // Update with your Flask app URL
-$data = array('login' => $login_id, 'password' => $password);
+    // Initialize cURL session
+    $ch = curl_init('http://localhost:5000/login'); // Replace with your Flask server address
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
 
-$options = array(
-    'http' => array(
-        'method'  => 'POST',
-        'header'  => 'Content-type: application/x-www-form-urlencoded',
-        'content' => http_build_query($data)
-    )
-);
+    // Execute the POST request
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
 
-$context = stream_context_create($options);
-$response = @file_get_contents($url, false, $context); // Suppress warnings
-
-if ($response === false) {
-    // Handle error
-    echo "Failed to connect to the backend.";
-} else {
-    // Process the response from Flask
-    $result = json_decode($response, true);
-    if (isset($result['message']) && $result['message'] === "Login successful") {
-        // Set session variables
-        $_SESSION['username'] = $result['user']['username']; // Assuming `username` is the key
-        // Redirect the user to landing_page.php upon successful login
+    // Handle the response based on HTTP status code
+    if ($http_code == 200) {
+        // Successful login
+        $response_data = json_decode($response, true);
+        session_start();
+        $_SESSION['username'] = $response_data['user']['username'];
         header("Location: landing_page.php");
         exit();
-    } else {
-        // Redirect back to login.php with error message
+    } elseif ($http_code == 401) {
+        // Invalid login credentials
         header("Location: login.php?error=1");
         exit();
+    } else {
+        // Other errors
+        echo "An error occurred: " . $response;
     }
 }
 ?>

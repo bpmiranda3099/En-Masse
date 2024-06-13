@@ -51,7 +51,7 @@ if (isset($_GET['registration']) && $_GET['registration'] == 'success') {
         }
         /* Style for floating dialog */
         .dialog-container {
-			display: none;
+            display: none;
             position: fixed;
             top: 50%;
             left: 50%;
@@ -64,7 +64,7 @@ if (isset($_GET['registration']) && $_GET['registration'] == 'success') {
             width: 600px; /* Example original width */
             height: 800px; /* Example original height */
         }
-		.dialog-container .btn-primary {
+        .dialog-container .btn-primary {
             background-color: #000;
             border: none;
             border-radius: 0;
@@ -77,9 +77,9 @@ if (isset($_GET['registration']) && $_GET['registration'] == 'success') {
     </style>
 </head>
 <body>
-	<!-- Menu Bar -->
+    <!-- Menu Bar -->
     <?php include 'menu.html'; ?>
-	
+    
     <div class="container register-container">
         <div class="row justify-content-center">
             <div class="col-md-6 col-sm-8"> <!-- Adjusted width of register form for different screen sizes -->
@@ -128,11 +128,7 @@ if (isset($_GET['registration']) && $_GET['registration'] == 'success') {
 
     <!-- Floating dialog -->
     <div id="dialog" class="dialog-container">
-		<br>
-		<br>
-		<br>
         <h3>Terms of Agreement and Privacy Policy</h3>
-		<br>
         <p>By registering, you agree to the following terms and conditions:</p>
         <ol>
             <li>You will provide accurate and complete information during registration.</li>
@@ -142,7 +138,6 @@ if (isset($_GET['registration']) && $_GET['registration'] == 'success') {
             <li>We reserve the right to suspend or terminate your account if you violate these terms.</li>
         </ol>
         <p>Please read our <a href="terms_of_service.html">Terms of Service</a> and <a href="privacy_policy.html">Privacy Policy</a> for more details.</p>
-		<br>
         <button onclick="hideDialog()" class="btn btn-primary btn-block">Decline</button>
         <button onclick="submitForm()" class="btn btn-primary btn-block">Accept</button>
     </div>

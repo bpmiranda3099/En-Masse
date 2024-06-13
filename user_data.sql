@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS user_sessions (
 
 CREATE TABLE IF NOT EXISTS login_attempts (
     attempt_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
+    user_id INT NOT NULL,
     attempt_time DATETIME DEFAULT CURRENT_TIMESTAMP,
     success BOOLEAN,
     FOREIGN KEY (user_id) REFERENCES login(user_id) ON DELETE CASCADE
