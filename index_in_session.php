@@ -96,18 +96,21 @@ $conn->close();
 					<li><a class="nav-link scrollto" href="#about">About</a></li>
 					<li><a class="nav-link scrollto" href="#team">Team</a></li>
 					<li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-					<li><a href="login.php" class="btn">Login/Signup</a></li>
+					<li><a class="nav-link scrollto" href="user_profile.php">Profile</a></li>
+					<li><a href="logout.php" class="btn">Logout</a></li>
 				</ul>
 				<i class="bi bi-list mobile-nav-toggle"></i>
 			</nav><!-- .navbar -->
 
 		</div>
 	</header>
+
+  <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
     <div class="container text-center text-md-left" data-aos="fade-up">
       <h1>A mass emailing system.</h1>
       <h2>En Masse simplifies bulk emailing with an easy-to-use interface and automation features.</h2>
-      <a href="#about" class="btn-get-started scrollto">Get Started</a>
+      <a href="landing_page.php" class="btn-get-started scrollto">Get Started</a>
     </div>
   </section><!-- End Hero -->
   

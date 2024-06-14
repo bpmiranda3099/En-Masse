@@ -38,20 +38,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $details_query->bind_param("isssss", $user_id, $user_first_name, $user_last_name, $user_dob, $user_address, $user_phone);
 
             if ($details_query->execute()) {
-                // Redirect to login.php with success parameter
-                header("Location: login.php?registration=success");
-                exit();
+                // Create a new table for user data
+                $table_name = $user_username . "_data";
+                $create_table_query = "CREATE TABLE $table_name (
+                                        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+                                        name VARCHAR(100),
+                                        email VARCHAR(100)
+                                    )";
+                if ($conn->query($create_table_query)) {
+                    // Insert initial values into the new table
+                    $insert_initial_data_query = "INSERT INTO $table_name (name, email) VALUES ('insert name', 'insert email')";
+                    if ($conn->query($insert_initial_data_query)) {
+                        // Insert into user_uploaded_tables
+                        $user_uploaded_tables_query = $conn->prepare("INSERT INTO user_uploaded_tables (user_id, table_name) VALUES (?, ?)");
+                        $user_uploaded_tables_query->bind_param("is", $user_id, $table_name);
+                        if ($user_uploaded_tables_query->execute()) {
+                            // Redirect to login.php with success parameter
+                            header("Location: login.php?registration=success");
+                            exit();
+                        } else {
+                            echo "Error inserting into user_uploaded_tables: " . $user_uploaded_tables_query->error;
+                        }
+                    } else {
+                        echo "Error inserting initial data into $table_name: " . $conn->error;
+                    }
+                } else {
+                    echo "Error creating table $table_name: " . $conn->error;
+                }
             } else {
-                echo "Error: " . $details_query->error;
+                echo "Error inserting into user_details table: " . $details_query->error;
             }
         } else {
-            echo "Error: " . $login_query->error;
+            echo "Error inserting into login table: " . $login_query->error;
         }
     }
 
     $check_query->close();
     $login_query->close();
     $details_query->close();
+    $user_uploaded_tables_query->close();
 }
 
 $conn->close();

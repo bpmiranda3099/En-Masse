@@ -51,8 +51,7 @@ $conn->close();
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="assets/img/en-masse-icon.ico" rel="icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="..." crossorigin="anonymous">
 
 
@@ -82,34 +81,35 @@ $conn->close();
 </head>
 
 <body>
-		<header id="header" class="fixed-top d-flex align-items-center">
-			<div class="container d-flex justify-content-between">
 
-				<div class="logo">
-					<h1><a href="index.php">en masse.</a></h1>
-					<!-- Uncomment below if you prefer to use an image logo -->
-					<!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-				</div>
+	<header id="header" class="fixed-top d-flex align-items-center">
+		<div class="container d-flex justify-content-between">
 
-				<nav id="navbar" class="navbar">
-					<ul>
-						<li><a class="nav-link scrollto" href="index.php">Home</a></li>
-						<li><a class="nav-link scrollto" href="index.php#about">About</a></li>
-						<li><a class="nav-link scrollto" href="index.php#team">Team</a></li>
-						<li><a class="nav-link scrollto" href="index.php#contact">Contact</a></li>
-						<li><a class="nav-link scrollto" href="user_profile.php">Profile</a></li>
-						<li><a href="logout.php" class="btn">Logout</a>
-					</ul>
-					<i class="bi bi-list mobile-nav-toggle"></i>
-				</nav><!-- .navbar -->
-
+			<div class="logo">
+				<h1><a href="index_in_session.php"><img src="assets/img/en-masse-logo.png" alt="Logo">en masse.</a></h1>
+				<!-- Uncomment below if you prefer to use an image logo -->
+				<!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 			</div>
-		</header><!-- End Header -->
+
+			<nav id="navbar" class="navbar">
+				<ul>
+					<li><a class="nav-link scrollto" href="index_in_session.php">Home</a></li>
+					<li><a class="nav-link scrollto" href="index_in_session.php#about">About</a></li>
+					<li><a class="nav-link scrollto" href="index_in_session.php#team">Team</a></li>
+					<li><a class="nav-link scrollto" href="index_in_session.php#contact">Contact</a></li>
+					<li><a class="nav-link scrollto" href="user_profile.php">Profile</a></li>
+					<li><a href="logout.php" class="btn">Logout</a>
+				</ul>
+				<i class="bi bi-list mobile-nav-toggle"></i>
+			</nav><!-- .navbar -->
+
+		</div>
+	</header><!-- End Header -->
 
   <main>
 	<br><br><br>
 		<div class="container">
-			<div class="row" data-aos="fade-left">
+			<div class="row" data-aos="fade-left" style="margin: 15px;">
 				<?php if (!empty($table_names)): ?>
 					<div class="dropdown">
 						<select id="tableSelect" class="get-started-button">
@@ -123,56 +123,55 @@ $conn->close();
 				<?php else: ?>
 					<br>
 					<div class="centered-button">
-						<a href="upload_page.php" class="next-button">Get Started</a>
+						<a href="upload_page.php" class="next-button">Upload a file</a>
 					</div>
 				<?php endif; ?>
 			</div>
-			<br><br>
-			<div class="section-bg" style="background-color: white; color: black; text-align: center;"  data-aos="fade-left">
-			  <h2>Compose Email</h2>
-			</div>
 			
-			<div class="row mt-5 justify-content-center" data-aos="fade-right">
-				  <div class="col-lg-10">
-					<form action="forms/contact.php" method="post" role="form" class="php-email-form">
-					
-					  <div class="row">
-						  <div class="col-md-6 form-group">
-							<input type="email" name="email" class="form-control" id="email" placeholder="Recipient's Email" required>
+			<br>
+			
+			<div class="card" style="max-width: 900px; margin: 0 auto;">
+				<div class="card-header section-bg" style="font-size: 20px; color: white;"  data-aos="fade-left">
+				  <strong>Compose Email</strong>
+				</div>
+				
+				<div class="row mt-5 justify-content-center" data-aos="fade-right">
+					  <div class="col-lg-10">
+						<form action="forms/contact.php" method="post" role="form" class="php-email-form">
+						
+						  <div class="row">
+							  <div class="col-md-6 form-group">
+								<input type="email" name="email" class="form-control" id="email" placeholder="Recipient's Email" required>
+							  </div>
+							  <div class="col-md-6 form-group">
+								<label for="tableSelect-recipient" class="sr-only">Recipient:</label>
+								<select id="tableSelect-recipient" class="form-control">
+								  <option>Select Data</option>
+								  <?php foreach ($table_names as $table_name): ?>
+									<option value="<?php echo $table_name; ?>"><?php echo $table_name; ?></option>
+								  <?php endforeach; ?>
+								</select>
+							  </div>
 						  </div>
-						  <div class="col-md-6 form-group">
-							<label for="tableSelect-recipient" class="sr-only">Recipient:</label>
-							<select id="tableSelect-recipient" class="form-control">
-							  <option>Select Data</option>
-							  <?php foreach ($table_names as $table_name): ?>
-								<option value="<?php echo $table_name; ?>"><?php echo $table_name; ?></option>
-							  <?php endforeach; ?>
-							</select>
+						  
+						  <div class="form-group mt-3">
+							<input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
 						  </div>
-					  </div>
-					  
-					  <div class="form-group mt-3">
-						<input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
-					  </div>
-					  
-					  <div class="form-group mt-3">
-						<textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
-					  </div>
-					  
-						<div class="form-group mt-3">
-							<label for="attachments" style="color: grey;">Attachments:</label>
+						  
+						  <div class="form-group mt-3">
+							<textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
+						  </div>
+						  
+							<div class="form-group mt-3">
+								<label for="attachments" style="color: grey;">Attachments:</label>
+								<br>
+								<input type="file" id="attachments" name="attachments[]" multiple class="attachment-button">
+								<button type="submit" class="next-button" id="next-button" style="float: right;">Send Email</button>
+							</div>
 							<br>
-							<input type="file" id="attachments" name="attachments[]" multiple class="attachment-button">
-						</div>
-						
-						<br>
-						
-						<div class="text-center" data-aos="fade-up">
-							<button type="submit" class="next-button" id="next-button">Send Email</button>
-						</div>
-					  
-					</form>
-				  </div>
+						</form>
+					  </div>
+				</div>
 			</div>
 		</div>
 	<br>
@@ -251,10 +250,10 @@ $conn->close();
             <h4>Useful Links</h4>
 			<br>
             <ul>
-              <li><a href="index.php">Home</a></li>
-              <li><a href="index.php#about">About</a></li>
-			  <li><a href="index.php#team">Team</a></li>
-			  <li><a href="index.php##contact">Contact</a></li>
+              <li><a href="index_in_session.php">Home</a></li>
+              <li><a href="index_in_session.php#about">About</a></li>
+			  <li><a href="index_in_session.php#team">Team</a></li>
+			  <li><a href="index_in_session.php##contact">Contact</a></li>
               <li><a href="#">Terms of service</a></li>
               <li><a href="#">Privacy policy</a></li>
             </ul>
@@ -278,7 +277,7 @@ $conn->close();
 	
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center" style="color: white;"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="landing_page.php" class="back-to-top d-flex align-items-center justify-content-center" style="color: white;"><i class="bi bi-arrow-left-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/aos/aos.js"></script>
@@ -320,8 +319,6 @@ $conn->close();
 			document.getElementById("tableSelect").style.display = "block";
 			document.getElementById("new-file").style.display = "block";
 
-			// Remove the event listener when hiding the lightbox
-			window.removeEventListener("click", windowClickHandler);
 		}
 
 		document.getElementById("tableSelect").addEventListener("change", function() {
@@ -392,6 +389,7 @@ $conn->close();
 
 		document.getElementById("close-lightbox").addEventListener("click", function() {
 			hideLightbox();
+			window.location.href = "compose_email.php";
 		});
 
 		function validateSelection() {

@@ -14,59 +14,175 @@ $upload_page = "http://127.0.0.1:5000/upload"; // Change to the appropriate endp
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Welcome and Upload Excel File</title>
-    <style>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-        /* CSS for centering upload form */
-        .upload-container {
-            text-align: center;
-            margin-top: 100px;
-        }
+  <title>Maxim Bootstrap Template - Index</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 
-        /* CSS for drag and drop */
-		.drag-drop {
-			border: 2px dashed #ccc;
-			padding: 20px;
-			text-align: center;
-			cursor: pointer;
-			display: block; /* Ensure block-level display */
-			width: 400px; /* Adjust width as needed */
-			margin: auto; /* Center horizontally */
-		}
+  <!-- Favicons -->
+  <link href="assets/img/en-masse-icon.ico" rel="icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="..." crossorigin="anonymous">
 
-		.drag-drop:hover {
-			background-color: #f0f0f0;
-		}
 
-		/* CSS for cancel button */
-		#cancelButton {
-			margin-top: 10px;
-			display: none; /* Initially hide cancel button */
-			margin-left: auto; /* Center horizontally */
-			margin-right: auto; /* Center horizontally */
-		}
-    </style>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Maxim
+  * Template URL: https://bootstrapmade.com/maxim-free-onepage-bootstrap-theme/
+  * Updated: Mar 17 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
+
 <body>
-    <?php include 'menu_in_session.html'; ?>
-    <br><br><br><br>
-    <div class="upload-container">
-        <h2>Upload Excel File</h2>
-        <!-- Adjusted form action -->
-        <form id="uploadForm" action="<?php echo $upload_page; ?>" method="post" enctype="multipart/form-data">
-            <!-- Hidden input field to include the username from the session -->
-            <input type="hidden" name="username" value="<?php echo $_SESSION['username']; ?>">
-            <label for="file" class="drag-drop" id="dropArea">Drag and drop your file here or click to select<input type="file" name="file" id="file" accept=".xlsx" style="display: none;"></label>
-            <br>
-			<input type="submit" value="Upload" id="uploadButton">
-            <button type="button" id="cancelButton">Cancel</button>
-        </form>
-        <p id="fileName"></p>
+
+	<header id="header" class="fixed-top d-flex align-items-center">
+		<div class="container d-flex justify-content-between">
+
+			<div class="logo">
+				<h1><a href="index_in_session.php"><img src="assets/img/en-masse-logo.png" alt="Logo">en masse.</a></h1>
+				<!-- Uncomment below if you prefer to use an image logo -->
+				<!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+			</div>
+
+			<nav id="navbar" class="navbar">
+				<ul>
+					<li><a class="nav-link scrollto" href="index_in_session.php">Home</a></li>
+					<li><a class="nav-link scrollto" href="index_in_session.php#about">About</a></li>
+					<li><a class="nav-link scrollto" href="index_in_session.php#team">Team</a></li>
+					<li><a class="nav-link scrollto" href="index_in_session.php#contact">Contact</a></li>
+					<li><a class="nav-link scrollto" href="user_profile.php">Profile</a></li>
+					<li><a href="logout.php" class="btn">Logout</a>
+				</ul>
+				<i class="bi bi-list mobile-nav-toggle"></i>
+			</nav><!-- .navbar -->
+
+		</div>
+	</header><!-- End Header -->
+	
+    <br><br><br><br><br>
+	
+    <div class="container" style="max-width: 500px;">
+		<div class="upload-container" data-aos="fade-right">
+			<div class="card">
+				<div class="card-header section-bg" style="font-size: 20px; color: white;"><strong>Upload Excel File</strong></div>
+				<div class="card-body">
+					<p class="instruction-text">Please upload an <strong>Excel file (.xlsx)</strong>s containing two columns: <strong>Name</strong> and <strong>Email</strong>. The file should only contain data in these two columns; no additional content is allowed.</p>
+					
+					<p><a href="assets/sample/sample.xlsx" download><strong>Click here to download a sample Excel file</strong></a></p>
+					
+					<form id="uploadForm" action="<?php echo $upload_page; ?>" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="username" value="<?php echo $_SESSION['username']; ?>">
+						
+						<div class="form-group">
+							<label for="file" class="drag-drop" id="dropArea" style="color: black; font-size: 15px;"><strong>Drag and drop</strong> your file here or <strong>click to select</strong></label>
+							<input type="file" class="form-control-file" name="file" id="file" accept=".xlsx" style="display: none;">
+							<p id="fileName"></p>
+						</div>
+						<div class="form-group">
+							<input type="submit" class="next-button" value="Upload" id="uploadButton" style="display: none;">
+							<button type="button" class="next-button" id="cancelButton" style="display: none;">Cancel</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+    
+<!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-info">
+              <h3>en masse.</h3>
+              <p>
+                LPU - C, Governor's Dr<br>
+                General Trias, Cavite, PH<br><br>
+                <strong>Phone:</strong> <br>
+				+639602056529<br><br>
+                <strong>Email:</strong> postmaster@.mg.enmasse.me<br>
+              </p>
+			  <br>
+              <div>
+				<a href="mailto:postmaster@mg.enmasse.me"><i class="fas fa-envelope" style="color: white; font-size: 24px;"></i></a>
+				<a href="https://github.com/bpmiranda3099/en-masse"><i class="bi bi-github" style="color: white; font-size: 24px;"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+			<br>
+			<br>
+            <h4>Useful Links</h4>
+			<br>
+            <ul>
+              <li><a href="#hero">Home</a></li>
+              <li><a href="#about">About</a></li>
+			  <li><a href="#team">Team</a></li>
+			  <li><a href="#contact">Contact</a></li>
+              <li><a href="#">Terms of service</a></li>
+              <li><a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <script>
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Maxim</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/maxim-free-onepage-bootstrap-theme/ -->
+        Designed by <a href="https://bootstrapmade.com/" style="color: white;">BootstrapMade</a>
+      </div>
+    </div>
+	
+  </footer><!-- End Footer -->
+  
+  <a href="landing_page.php" class="back-to-top d-flex align-items-center justify-content-center" style="color: white;"><i class="bi bi-arrow-left-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+  <script>
         // JavaScript for drag and drop functionality
         const dropArea = document.getElementById('dropArea');
         const fileInput = document.getElementById('file');
@@ -110,12 +226,14 @@ $upload_page = "http://127.0.0.1:5000/upload"; // Change to the appropriate endp
 
         function hideDropArea() {
             dropArea.style.display = 'none';
-            cancelButton.style.display = 'inline-block'; // Show cancel button
+			uploadButton.style.display = 'inline-block';
+            cancelButton.style.display = 'inline-block'; 
         }
 
         function showDropArea() {
             dropArea.style.display = 'block';
-            cancelButton.style.display = 'none'; // Hide cancel button
+			uploadButton.style.display = 'none';
+            cancelButton.style.display = 'none'; 
         }
 
         function clearFileInput() {
@@ -145,5 +263,8 @@ $upload_page = "http://127.0.0.1:5000/upload"; // Change to the appropriate endp
             });
         });
     </script>
+
 </body>
+
 </html>
+

@@ -52,8 +52,7 @@ $conn->close();
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="assets/img/en-masse-icon.ico" rel="icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="..." crossorigin="anonymous">
 
 
@@ -78,15 +77,15 @@ $conn->close();
     <header id="header" class="fixed-top d-flex align-items-center">
         <div class="container d-flex justify-content-between">
             <div class="logo">
-                <h1><a href="index.php">en masse.</a></h1>
+                <h1><a href="index_in_session.php"><img src="assets/img/en-masse-logo.png" alt="Logo">en masse.</a></h1>
             </div>
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto" href="index.php">Home</a></li>
-                    <li><a class="nav-link scrollto" href="index.php#about">About</a></li>
-                    <li><a class="nav-link scrollto" href="index.php#team">Team</a></li>
-                    <li><a class="nav-link scrollto" href="index.php#contact">Contact</a></li>
+                    <li><a class="nav-link scrollto" href="index_in_session.php">Home</a></li>
+                    <li><a class="nav-link scrollto" href="index_in_session.php#about">About</a></li>
+                    <li><a class="nav-link scrollto" href="index_in_session.php#team">Team</a></li>
+                    <li><a class="nav-link scrollto" href="index_in_session.php#contact">Contact</a></li>
                     <li><a class="nav-link scrollto" href="user_profile.php">Profile</a></li>
 					<li><a href="logout.php" class="btn">Logout</a>
                 </ul>
@@ -166,10 +165,10 @@ $conn->close();
             <h4>Useful Links</h4>
 			<br>
             <ul>
-              <li><a href="index.php">Home</a></li>
-              <li><a href="index.php#about">About</a></li>
-			  <li><a href="index.php#team">Team</a></li>
-			  <li><a href="index.php#contact">Contact</a></li>
+              <li><a href="index_in_session.php">Home</a></li>
+              <li><a href="index_in_session.php#about">About</a></li>
+			  <li><a href="index_in_session.php#team">Team</a></li>
+			  <li><a href="index_in_session.php#contact">Contact</a></li>
               <li><a href="#">Terms of service</a></li>
               <li><a href="#">Privacy policy</a></li>
             </ul>

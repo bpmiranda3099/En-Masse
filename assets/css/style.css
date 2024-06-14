@@ -62,10 +62,8 @@ h6 {
 /*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/
-.back-to-top{
+.back-to-top {
   position: fixed;
-  visibility: hidden;
-  opacity: 0;
   right: 15px;
   bottom: 15px;
   z-index: 996;
@@ -74,17 +72,14 @@ h6 {
   height: 40px;
   border-radius: 4px;
   transition: all 0.4s;
+  visibility: visible; 
+  opacity: 1; 
 }
 
 .back-to-top i {
   font-size: 28px;
   color: #fff;
   line-height: 0;
-}
-
-.back-to-top.active {
-  visibility: visible;
-  opacity: 1;
 }
 
 /*--------------------------------------------------------------
@@ -107,12 +102,12 @@ h6 {
 }
 
 #header .logo h1 {
-  font-size: 30px;
+  font-size: 25px;
   margin: 0;
   padding: 6px 0;
   line-height: 1;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-weight: 600;
+  letter-spacing: 3px;
 }
 
 #header .logo h1 a,
@@ -123,7 +118,7 @@ h6 {
 
 #header .logo img {
   padding: 0;
-  margin: 0;
+  margin: 4px;
   max-height: 40px;
 }
 
@@ -132,6 +127,75 @@ h6 {
     height: 60px;
   }
 }
+
+/*--------------------------------------------------------------
+# Login
+--------------------------------------------------------------*/
+.login-container {
+	text-align: center;
+	margin-top: 50px;
+	border-radius: 4px;
+	transition: opacity 0.3s ease, height 0.3s ease;
+}
+.login-container .card {
+	border: none;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+.login-container .card-header {
+	background-color: #fff;
+	border: none;
+	font-size: 24px;
+	font-weight: bold;
+	padding: 20px 0;
+}
+.login-container .card-body {
+	background-color: #fff;
+	padding: 20px;
+}
+.login-container .form-control {
+	border: 1px solid #ddd;
+	border-radius: 0;
+	margin-bottom: 20px;
+}
+.login-container .btn-primary {
+	background-color: #000;
+	border: none;
+	border-radius: 0;
+	font-weight: bold;
+	padding: 10px 20px;
+}
+.login-container .btn-primary:hover {
+	background-color: #333;
+}
+.login-container p {
+	margin-top: 20px;
+}
+
+.dialog-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+            z-index: 1000;
+            width: 600px; /* Example original width */
+            height: 800px; /* Example original height */
+        }
+        .dialog-container .btn-primary {
+            background-color: #000;
+            border: none;
+            border-radius: 0;
+            font-weight: bold;
+            padding: 10px 20px;
+        }
+        .dialog-container .btn-primary:hover {
+            background-color: #333;
+        }
 
 /*--------------------------------------------------------------
 # Navigation Menu
@@ -1424,6 +1488,7 @@ section {
 	cursor: pointer;
 	margin: auto; /* Center the gallery */
 	position: relative;
+	border-radius: 4px;
 }
 
 .gallery-arrows {
@@ -1575,6 +1640,7 @@ section {
   padding: 0 0 30px 0;
   color: #fff;
   font-size: 14px;
+  transition: opacity 0.3s ease;
 }
 
 #footer .footer-top {
@@ -1755,4 +1821,36 @@ section {
 
 #lightbox-table input[type="text"] {
 	width: 98.5%; /* Double the width */
+}
+
+/*--------------------------------------------------------------
+# Upload
+--------------------------------------------------------------*/
+.upload-container {
+	text-align: center;
+	margin-top: 100px;
+}
+
+/* CSS for drag and drop */
+.drag-drop {
+	border: 2px dashed #ccc;
+	padding: 20px;
+	text-align: center;
+	cursor: pointer;
+	display: block; /* Ensure block-level display */
+	width: 400px; /* Adjust width as needed */
+	margin: auto; /* Center horizontally */
+}
+
+.drag-drop:hover {
+	background-color: #f0f0f0;
+	border: 1px dashed black;
+}
+
+/* CSS for cancel button */
+#cancelButton {
+	margin-top: 10px;
+	display: none; /* Initially hide cancel button */
+	margin-left: auto; /* Center horizontally */
+	margin-right: auto; /* Center horizontally */
 }
