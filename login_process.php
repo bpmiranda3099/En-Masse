@@ -1,4 +1,6 @@
 <?php
+session_start(); // Ensure session is started at the beginning
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $login_id = $_POST['login'];
@@ -27,7 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($http_code == 200) {
         // Successful login
         $response_data = json_decode($response, true);
-        session_start();
         $_SESSION['username'] = $response_data['user']['username'];
         header("Location: landing_page.php");
         exit();

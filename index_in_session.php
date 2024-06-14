@@ -48,7 +48,7 @@ $conn->close();
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Maxim Bootstrap Template - Index</title>
+  <title>en masse. - Home</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -85,9 +85,7 @@ $conn->close();
 		<div class="container d-flex justify-content-between">
 
 			<div class="logo">
-				<h1><a href="index.php"><img src="assets/img/en-masse-logo.png" alt="Logo">en masse.</a></h1>
-				<!-- Uncomment below if you prefer to use an image logo -->
-				<!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+				<h1><a href="index_in_session.php"><img src="assets/img/en-masse-logo.png" alt="Logo">en masse.</a></h1>
 			</div>
 
 			<nav id="navbar" class="navbar">
@@ -182,40 +180,67 @@ $conn->close();
     <!-- ======= About Section ======= -->
     <section id="about" class="about">
       <div class="container">
-
+		
         <div class="row">
-          <div class="col-xl-6 col-lg-7" data-aos="fade-right">
-            <img src="assets/img/about-img.jpg" class="img-fluid" alt="">
-          </div>
-          <div class="col-xl-6 col-lg-5 pt-5 pt-lg-0">
-            <h3 data-aos="fade-up">Voluptatem dignissimos provident</h3>
-            <p data-aos="fade-up">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <div class="icon-box" data-aos="fade-up">
-              <i class="bx bx-receipt"></i>
-              <h4>Corporis voluptates sit</h4>
-              <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut aliquip</p>
-            </div>
+		  <div class="col-xl-6 col-lg-5 pt-5 pt-lg-0">
+			
+			<br>
+			
+			<div class="icon-box" data-aos="fade-up" style="display: flex; flex-direction: column; align-items: start; gap: 10px;">
+				<i class="bx bx-receipt"></i>
+				<h3 style="color: black;"><strong>About en masse.</strong></h3>
+				<p style="color: black; margin: 0;">en masse is a robust web application designed to streamline data management, analysis, and communication tasks effortlessly. Built on Flask, it integrates various technologies to handle user uploads, database operations, and email communications securely and efficiently.</p>
+			</div>
+			
+			<br>
+			<br>
+			
+			<div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+			  <div style="display: flex; flex-direction: column; align-items: start; gap: 10px;">
+				<h3 style="color: black;"><strong>Key Features</strong></h3>
+				
+				<br>
+				
+				<div style="display: flex; align-items: start; gap: 5px;">
+					<i class="bi bi-key" style="color: black; margin-right: 15px;"></i>
+					<p style="color: black; margin: 0;">
+						<strong>User Authentication and Session Management:</strong> Implemented using Flask sessions and MySQL, ensuring secure user access and management.
+					</p>
+				</div>
+				
+				<br>
+				
+				<div style="display: flex; align-items: start; gap: 5px;">
+					<i class="bi bi-file-earmark" style="color: black; margin-right: 15px;"></i>
+					<p style="color: black; margin: 0;">
+						<strong>Data Upload and Processing:</strong> Users can upload Excel (.xlsx) files containing structured data. The app validates the file format and structure, processes the data, and stores it in dynamically created MySQL tables.
+					</p>
+				</div>
+				
+				<br>
 
-            <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
-              <i class="bx bx-cube-alt"></i>
-              <h4>Ullamco laboris nisi</h4>
-              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
-            </div>
+				<div style="display: flex; align-items: start; gap: 5px;">
+					<i class="bi bi-envelope" style="color: black; margin-right: 15px;"></i>
+					<p style="color: black; margin: 0;">
+						<strong>Mass Email System:</strong> Empowers users to send emails through Simple Mail Transfer Protocol (SMTP) to multiple recipients directly from the application. Supports both plain text messages and attachments, facilitating efficient communication.
+					</p>
+				</div>
+			</div>
+			</div>
+		  </div>
 
-            <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
-              <i class="bx bx-cube-alt"></i>
-              <h4>Ullamco laboris nisi</h4>
-              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
-            </div>
-
-          </div>
-        </div>
+		  <div class="col-xl-6 col-lg-7" data-aos="fade-right">
+			<br><br>
+			<h3 style="color: black;"><strong>Technologies Used:</strong></h3>
+			<br>
+			<img src="assets/img/about-img.png" class="img-fluid" alt="">
+		  </div>
+		</div>
 
       </div>
     </section><!-- End About Section -->
-
+	
+	<br>
     <!-- ======= Team Section ======= -->
     <section id="team" class="team section-bg">
       <div class="container">
@@ -289,7 +314,7 @@ $conn->close();
 
       </div>
     </section><!-- End Team Section -->
-
+	<br>
 <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials">
       <div class="container">
@@ -521,19 +546,6 @@ $conn->close();
             </ul>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="copyright">
-        &copy; Copyright <strong><span>Maxim</span></strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/maxim-free-onepage-bootstrap-theme/ -->
-        Designed by <a href="https://bootstrapmade.com/" style="color: white;">BootstrapMade</a>
       </div>
     </div>
 	

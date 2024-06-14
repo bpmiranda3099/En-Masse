@@ -20,7 +20,7 @@ $upload_page = "http://127.0.0.1:5000/upload"; // Change to the appropriate endp
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Maxim Bootstrap Template - Index</title>
+  <title>en masse. - Upload</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -88,7 +88,7 @@ $upload_page = "http://127.0.0.1:5000/upload"; // Change to the appropriate endp
 			<div class="card">
 				<div class="card-header section-bg" style="font-size: 20px; color: white;"><strong>Upload Excel File</strong></div>
 				<div class="card-body">
-					<p class="instruction-text">Please upload an <strong>Excel file (.xlsx)</strong>s containing two columns: <strong>Name</strong> and <strong>Email</strong>. The file should only contain data in these two columns; no additional content is allowed.</p>
+					<p class="instruction-text">Please upload an <strong>Excel file (.xlsx)</strong> containing two columns: <strong>Name</strong> and <strong>Email</strong>. The file should only contain data in these two columns; no additional content is allowed.</p>
 					
 					<p><a href="assets/sample/sample.xlsx" download><strong>Click here to download a sample Excel file</strong></a></p>
 					
@@ -154,23 +154,10 @@ $upload_page = "http://127.0.0.1:5000/upload"; // Change to the appropriate endp
         </div>
       </div>
     </div>
-
-    <div class="container">
-      <div class="copyright">
-        &copy; Copyright <strong><span>Maxim</span></strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/maxim-free-onepage-bootstrap-theme/ -->
-        Designed by <a href="https://bootstrapmade.com/" style="color: white;">BootstrapMade</a>
-      </div>
-    </div>
 	
   </footer><!-- End Footer -->
   
-  <a href="landing_page.php" class="back-to-top d-flex align-items-center justify-content-center" style="color: white;"><i class="bi bi-arrow-left-short"></i></a>
+  <a href="landing_page.php" class="back-to-top d-flex align-items-center justify-content-center" style="color: white;" data-aos="fade-left"><i class="bi bi-arrow-left-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/aos/aos.js"></script>

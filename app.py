@@ -22,7 +22,6 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "enmasse4ever"
 
 CORS(app, resources={r"/*": {"origins": "*"}})
-
 DATA_QUERY_URL = "http://localhost:5000/upload"  # URL of the data_query Flask app
 
 # Database configuration
@@ -92,8 +91,10 @@ def login():
             cursor.close()
             db.close()
             return jsonify({"message": "Invalid username/email or password"}), 401
-    except (Error, ValueError) as e:
+
+    except (mysql.connector.Error, ValueError) as e:
         return jsonify({"message": "An error occurred", "error": str(e)}), 500
+
 
 @app.route('/upload_page', methods=['POST'])
 def upload_page():
@@ -424,6 +425,50 @@ def save_table():
     except mysql.connector.Error as err:
         return jsonify({"message": "An error occurred", "error": str(err)}), 500
 
+@app.route('/fetch_user_details', methods=['POST'])
+def fetch_user_details():
+    try:
+        db = mysql.connector.connect(**db_config)
+        cursor = db.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT 
+                l.username, 
+                l.email, 
+                ud.first_name, 
+                ud.last_name, 
+                ud.date_of_birth, 
+                ud.address, 
+                ud.phone_number, 
+                l.user_type,
+                l.register_date
+            FROM 
+                login l
+            JOIN 
+                user_details ud ON l.user_id = ud.user_id
+            ORDER BY 
+                l.register_date DESC
+            LIMIT 1;
+        """)
+        user = cursor.fetchone()
+
+        cursor.close()
+        db.close()
+
+        if not user:
+            return jsonify({"message": "No users found"}), 404
+
+        # Format date_of_birth as MM/DD/YYYY
+        if user['date_of_birth']:
+            user['date_of_birth'] = user['date_of_birth'].strftime('%m/%d/%Y')
+
+        return jsonify({
+            "message": "Success",
+            "user_details": user
+        }), 200
+
+    except mysql.connector.Error as err:
+        return jsonify({"message": "An error occurred", "error": str(err)}), 500
 
 def send_email(sender_email, password, recipients, subject, message):
     try:

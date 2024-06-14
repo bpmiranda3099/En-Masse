@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS user_sessions (
     FOREIGN KEY (user_id) REFERENCES login(user_id) ON DELETE CASCADE
 );
 
+-- Create the login_attempts table with cascading deletes
 CREATE TABLE IF NOT EXISTS login_attempts (
     attempt_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -65,6 +66,7 @@ CREATE TABLE IF NOT EXISTS login_attempts (
     FOREIGN KEY (user_id) REFERENCES login(user_id) ON DELETE CASCADE
 );
 
+-- Create the file_uploads table with cascading deletes
 CREATE TABLE IF NOT EXISTS file_uploads (
     upload_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -76,10 +78,21 @@ CREATE TABLE IF NOT EXISTS file_uploads (
     FOREIGN KEY (user_id) REFERENCES login(user_id) ON DELETE CASCADE
 );
 
+-- Create the data_table_metrics table with cascading deletes
 CREATE TABLE IF NOT EXISTS data_table_metrics (
     metric_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     tables_created INT,
     tables_deleted INT,
+    FOREIGN KEY (user_id) REFERENCES login(user_id) ON DELETE CASCADE
+);
+
+-- Create the social_media_accounts table with cascading deletes
+CREATE TABLE IF NOT EXISTS social_media_accounts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    github VARCHAR(255),
+    instagram VARCHAR(255),
+    facebook VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES login(user_id) ON DELETE CASCADE
 );

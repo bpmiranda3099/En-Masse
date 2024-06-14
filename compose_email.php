@@ -1,13 +1,6 @@
 <?php
 session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION['username'])) {
-    // If not logged in, redirect to login page
-    header("Location: login.php");
-    exit();
-}
-
 // Database configuration
 $db_host = "localhost";
 $db_username = "root";
@@ -21,6 +14,43 @@ $conn = new mysqli($db_host, $db_username, $db_password, $db_name);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+// Check if the user is already logged in
+if(isset($_SESSION['user'])){
+    // User is already logged in, redirect them to a dashboard or another page.
+    header("Location: dashboard.php"); // Redirect to dashboard or appropriate page
+    exit;
+}
+
+// If the login form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username']) && isset($_POST['password'])) {
+    // Sanitize input to prevent SQL injection
+    $username = $conn->real_escape_string($_POST['username']);
+    $password = $_POST['password'];
+    
+    // Perform authentication logic
+    $stmt = $conn->prepare("SELECT user_id, password FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->bind_result($user_id, $hashed_password);
+    $stmt->fetch();
+    
+    if ($hashed_password && password_verify($password, $hashed_password)) {
+        // Authentication successful, set session variables
+        $_SESSION['user'] = $username;
+        $_SESSION['user_id'] = $user_id;
+        
+        // Redirect the user to a logged-in page
+        header("Location: index.php");
+        exit;
+    } else {
+        // Invalid username or password
+        $error = "Invalid username or password.";
+    }
+    
+    $stmt->close();
+}
+
 
 // Fetch table names tied to the current user
 $username = $_SESSION['username'];
@@ -46,7 +76,7 @@ $conn->close();
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Maxim Bootstrap Template - Index</title>
+  <title>en masse. - Compose Email</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -70,14 +100,6 @@ $conn->close();
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: Maxim
-  * Template URL: https://bootstrapmade.com/maxim-free-onepage-bootstrap-theme/
-  * Updated: Mar 17 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
@@ -87,8 +109,6 @@ $conn->close();
 
 			<div class="logo">
 				<h1><a href="index_in_session.php"><img src="assets/img/en-masse-logo.png" alt="Logo">en masse.</a></h1>
-				<!-- Uncomment below if you prefer to use an image logo -->
-				<!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 			</div>
 
 			<nav id="navbar" class="navbar">
@@ -262,22 +282,9 @@ $conn->close();
       </div>
     </div>
 
-    <div class="container">
-      <div class="copyright">
-        &copy; Copyright <strong><span>Maxim</span></strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/maxim-free-onepage-bootstrap-theme/ -->
-        Designed by <a href="https://bootstrapmade.com/" style="color: white;">BootstrapMade</a>
-      </div>
-    </div>
-	
   </footer><!-- End Footer -->
 
-  <a href="landing_page.php" class="back-to-top d-flex align-items-center justify-content-center" style="color: white;"><i class="bi bi-arrow-left-short"></i></a>
+  <a href="landing_page.php" class="back-to-top d-flex align-items-center justify-content-center" style="color: white;" data-aos="fade-left"><i class="bi bi-arrow-left-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/aos/aos.js"></script>

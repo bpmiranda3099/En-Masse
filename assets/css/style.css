@@ -313,7 +313,7 @@ h6 {
   font-size: 14px;
   text-transform: none;
   font-weight: 500;
-  color: #062822;
+  color: #000;
 }
 
 .navbar .dropdown ul a i {
@@ -377,6 +377,7 @@ h6 {
 }
 
 .navbar-mobile {
+  color: black;
   position: fixed;
   overflow: hidden;
   top: 0;
@@ -421,7 +422,7 @@ h6 {
 .navbar-mobile a:focus {
   padding: 10px 20px;
   font-size: 15px;
-  color: #21413c;
+  color: #000;
 }
 
 .navbar-mobile a:hover,
@@ -661,7 +662,7 @@ section {
 .about h3 {
   font-weight: 400;
   font-size: 34px;
-  color: #21413c;
+  color: #000;
 }
 
 .about .icon-box {
@@ -678,7 +679,7 @@ section {
   font-size: 22px;
   font-weight: 500;
   margin-left: 60px;
-  color: #21413c;
+  color: #000;
 }
 
 .about .icon-box p {
@@ -744,7 +745,7 @@ section {
   border: 0;
   padding: 20px;
   transition: 0.3s;
-  color: #21413c;
+  color: #000;
 }
 
 .features .nav-link:hover {
