@@ -98,24 +98,21 @@ $conn->close();
   <main>
 	<br><br><br><br><br><br>
 	<div id="gallery" class="gallery" onclick="moveSlide(1)" data-aos="fade-right">
-		<br>
-		<br>
-		<br>
         <div class="slides">
             <div class="slide">
-                <img src="image1.jpg" alt="Image 1">
+                <img src="assets/img/instructions.png" alt="Image 1">
                 <div class="text">Text for Image 1</div>
             </div>
             <div class="slide">
-                <img src="image2.jpg" alt="Image 2">
+                <img src="assets/img/instructions.png" alt="Image 2">
                 <div class="text">Text for Image 2</div>
             </div>
             <div class="slide">
-                <img src="image3.jpg" alt="Image 3">
+                <img src="assets/img/instructions.png" alt="Image 3">
                 <div class="text">Text for Image 3</div>
             </div>
             <div class="slide">
-                <img src="image4.jpg" alt="Image 3">
+                <img src="assets/img/instructions.png" alt="Image 3">
                 <div class="text">Text for Image 3</div>
             </div>
         </div>

@@ -137,7 +137,7 @@ $conn->close();
               <!-- /Profile Details-->
 			  <br>
               <!-- Connections &  Links -->
-              <div class="card mt-3" data-aos="fade-right">
+              <div class="card mt-3" data-aos="fade-up">
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <h6 class="mb-0"><i class="bi bi-github" style="margin: 8px;"></i>Github</h6>

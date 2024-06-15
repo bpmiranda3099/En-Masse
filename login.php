@@ -125,7 +125,7 @@ $conn->close();
 							<button type="submit" class="next-button">Login</button>
 						</form>
 						<br>
-						<p>Don't have an account? <a href="#" id="show-register" style="color: grey;">Signup here</a></p>
+						<p>Don't have an account? <a href="#" id="show-register" style="color: grey;"><strong>Signup here</strong></a></p>
 					</div>
 				</div>
 			</div>
@@ -240,19 +240,6 @@ $conn->close();
             </ul>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="copyright">
-        &copy; Copyright <strong><span>Maxim</span></strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/maxim-free-onepage-bootstrap-theme/ -->
-        Designed by <a href="https://bootstrapmade.com/" style="color: white;">BootstrapMade</a>
       </div>
     </div>
 	
